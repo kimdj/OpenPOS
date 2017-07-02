@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+- '0.10'
+- '0.12'
+- '4'
+- '5'
+env:
+  global:
+  - SAUCE_USERNAME=rzrsharp_oss
+  - secure: LLn6txWpS84end3/R6WzC5m0UYKiet3mGUHRFbg3jhV/ffmNA0kYVZIX9eNh2VFTFvM+6kpXuAHeheYLlG+D+yVolVszCgtwuhQStBx3OOiAfMluqPYjlnnnCRuzCTOd6cuLFeMLYbRcLhk3pthEkFySiXb904VgsNy2eF04iO4=
