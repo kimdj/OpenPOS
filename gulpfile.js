@@ -25,6 +25,11 @@ var imagemin = require('gulp-imagemin');
 notify: false
 var tsProject = typescript.createProject('tsconfig.json');
 
+/* MongoDB */
+var exec = require('child_process').exec;
+
+/**********************************************************************/
+
 gulp.task('build-css', function () {
 	return gulp.src(assetsDev + 'scss/*.scss')
 		.pipe(sourcemaps.init())
@@ -63,3 +68,30 @@ gulp.task('watch', function () {
 });
 
 gulp.task('default', ['watch', 'build-ts', 'build-css']);
+
+gulp.task("mongo-start", function () {
+	var command = "mongod --fork --dbpath " + paths.dbDir + "/ --logpath " + paths.dbLogs + "/mongo.log";
+	mkdirs(paths.dbDir);
+	mkdirs(paths.dbLogs);
+	runCommand(command);
+});
+
+gulp.task("mongo-stop", function () {
+	var command = 'mongo admin --eval "db.shutdownServer();"'
+	runCommand(command);
+});
+
+/* MongoDB */
+function runCommand(command) {
+  return function (cb) {
+    exec(command, function (err, stdout, stderr) {
+      console.log(stdout);
+      console.log(stderr);
+      cb(err);
+    });
+  };
+}
+
+// Database tasks
+gulp.task('start-mongo', runCommand('docker run --rm --name mongo-dev -p 27017:27017 mongo'));
+gulp.task('start-mongo-viewer', runCommand('docker run --rm --name mongo-express-dev --link mongo-dev:mongo -p 8081:8081 mongo-express'));
