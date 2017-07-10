@@ -1,5 +1,4 @@
-// Code goes here
-var app = angular.module('myApp', []);
+var app = angular.module('OpenPOS', []);
 
 app.controller('PosController', function ($scope) {
 
