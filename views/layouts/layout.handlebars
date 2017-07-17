@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="OpenPOS">
 
 <head>
+	<meta charset="utf-8">
 	<title>OpenPOS</title>
+	
+	<base href="/" />
+	
 	<link rel="stylesheet" href="/css/bootstrap.css" />
 	<link rel="stylesheet" href="/css/style.css" />
+	<link href="/public/css/_style.css" rel="stylesheet" />
 </head>
 
-<body>
+<body data-ng-controller="PosController">
 	<div class="container">
 		<div class="header clearfix">
 			<nav>
@@ -44,4 +49,18 @@
 	<!-- /container -->
 </body>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+<script src="_app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 </html>
+<script>
+	$(document).ready(function() {
+		$("#myTab a").click(function(e) {
+			e.preventDefault();
+			$(this).tab('show');
+		});
+	});
+
+</script>

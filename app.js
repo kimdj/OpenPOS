@@ -37,6 +37,15 @@ app.use(cookieParser());
 // Set Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
+// TESTING
+app.get('/about', function(req, res) {
+	res.send("HELLO WORLD!");
+});
+
+
+
 // Express Session
 app.use(session({
 	secret: 'secret',
@@ -90,8 +99,7 @@ app.listen(app.get('port'), function () {
 	console.log('Server started on port ' + app.get('port'));
 });
 
-// Angular Routes
-/*app.all('/*', function(req, res, next) {
-    // Just send the index.html for other files to support HTML5Mode
-    res.sendFile('_index.html', { root: __dirname });
+// raw handlebars  ==>  {{{{ title }}}} instead of {{ title }} to avoid conflict w/ Angular syntax
+/*Handlebars.registerHelper('raw', function (options) {
+	return options.fn(this);
 });*/
