@@ -165,3 +165,12 @@ app.controller('PosController', function ($scope) {
 	};
 
 });
+
+$routeprovider.when('/', {
+	templateUrl: 'index',
+	controller: IndexCtrl
+});
+$routeprovider.when('/about', {
+	templateUrl: 'partials/about',
+	controller: IndexCtrl
+});
