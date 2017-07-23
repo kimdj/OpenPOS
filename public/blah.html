@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <title>Breakfast POS Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://code.angularjs.org/1.3.0-rc.2/angular.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <link href="style.css" rel="stylesheet" />
+    <script src="app.js"></script>
+</head>
+<body data-ng-controller="PosController">
+    <div class="col-md-12">
+        <div class="row">
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="#">POS AngularJs - Example - Open in Fullscreen for better user experience</a>
+                        </div>
+                    </div><!-- /.container-fluid -->
+                </nav>
+           
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-4"><span class="panel-title">Order Summary</span></div>
+                            <div class="col-md-4"><span>Today is: {{getDate()}}</span></div>
+                            <div class="col-md-3 col-md-push-1"><span>Total Orders - </span><span class="badge">{{totOrders}}</span></div>
+                        </div>
+                    </div>
+                    <div class="panel-body" style="max-height:320px; overflow:auto;">
+                        <div class="text-warning" ng-hide="order.length">
+                            Nothing ordered yet!
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item" ng-repeat="item in order">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <span class="badge badge-left" ng-bind="item.qty"></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        {{item.name}}
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="label label-success">{{item.price * item.qty | currency:"USD$":0}}</div>
+                                    </div>
+                                    <div class="col-md-1 col-md-push-1">
+                                        <div class="label label-warning">{{item.price | currency:"USD$":0}}</div>
+                                    </div>
+                                    <div class="col-md-2 col-md-push-2">
+                                        <button class="btn btn-success btn-xs" ng-click="addToOrder(item,1)">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </button>
+                                        <button class="btn btn-warning btn-xs" ng-click="removeOneEntity(item)">
+                                            <span class="glyphicon glyphicon-minus"></span>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-1 col-md-push-2">
+                                        <button class="btn btn-danger btn-xs" ng-click="removeItem(item)">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-footer" ng-show="order.length">
+                        <h3><span class="label label-primary">Total: {{getTotal() | currency:"USD $ ":0}}</span></h3>
+                    </div>
+                    <div class="panel-footer" ng-show="order.length">
+                        <div>
+                            <span class="btn btn-default btn-marginTop" ng-click="clearOrder()" ng-disabled="!order.length">Clear</span>
+                            <span class="btn btn-danger btn-marginTop" ng-click="checkout()" ng-disabled="!order.length">Checkout</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-body">
+                        <ul id="myTab" class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#drink" role="tab" data-toggle="tab">Drinks</a></li>
+                            <li role="presentation"><a href="#food" role="tab" data-toggle="tab">Food</a></li>
+                            <li role="presentation"><a href="#new" role="tab" data-toggle="tab">New Item</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="drink">
+                                <button class="btn btn-primary btn-pos btn-marginTop" data-ng-repeat="item in drinks" data-ng-bind="item.name" data-ng-click="addToOrder(item,1)"></button>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="food">
+                                <button class="btn btn-warning btn-pos btn-marginTop" data-ng-repeat="item in foods" data-ng-bind="item.name" data-ng-click="addToOrder(item,1)"></button>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="new">
+                                <br />
+                                <form class="form" name="formCreate" novalidate>
+                                    <div class="col-md-4">
+                                        <label>Name*</label>
+                                        <input type="text" class="form-control" data-ng-model="new.name" required />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Price*</label>
+                                        <input type="number" class="form-control" data-ng-model="new.price" required />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Category*</label>
+                                        <select class="form-control" data-ng-model="new.category" required>
+                                            <option>Drinks</option>
+                                            <option>Foods</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <br />
+                                        <button class="btn btn-default btn-marginTop" data-ng-click="addNewItem(new)" data-ng-disabled="formCreate.$invalid">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        $("#myTab a").click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+    });
+</script>
+
