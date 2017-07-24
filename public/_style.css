@@ -32,7 +32,9 @@
 	margin-right: 1px;
 	margin-bottom: 1px;
 	margin-left: 1px;
-	
+	width: 200px !important;
+	height: 110px !important;
+	text-align: center;
 }
 
 btn-summary {
@@ -47,6 +49,7 @@ btn-marginTop {
 	float: none
 }
 
-.list-group-item > .badge {
+.list-group-item>.badge {
 	float: none;
 }
+

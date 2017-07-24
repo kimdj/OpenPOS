@@ -1,4 +1,4 @@
-var express = require('express');
+var express = require('express');  // require () is a Node.js built-in function that loads modules; the concept is similar to imports/includes
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -11,16 +11,21 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
+// setup a connection with the database running locally on the default port (27017)
 mongoose.connect('mongodb://localhost/loginapp');
 var db = mongoose.connection;
 
+// define the routes
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-// Init App
+// init an express app
 var app = express();
 
-// View Engine
+// block the header from containing information about the server (for security)
+app.disable('x-powered-by');
+
+// setup the handlebars view engine
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs({
 	defaultLayout: 'layout'
