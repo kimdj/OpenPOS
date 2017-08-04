@@ -1,7 +1,7 @@
 // Code goes here
 var app = angular.module('OpenPOS', []);
 
-app.controller('PosController', function ($scope) {
+app.controller('PosController', function ($scope, $compile) {
 
 	$scope.drinks = [{
 			id: 0,
@@ -169,5 +169,6 @@ app.controller('PosController', function ($scope) {
 			$('#myTab a[href="#food"]').tab('show')
 		}
 	};
-
 });
+
+

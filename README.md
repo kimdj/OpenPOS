@@ -23,11 +23,45 @@ Gulp is a command line task runner utilizing the Node.js platform.  It runs cust
 
 BrowserSync is an automation tool that synchronizes file changes and interactions across many devices.  This allows for faster development and better application testing procedures.  
 
-## Before You Begin
-
-
-
 ## Prerequisites
+### Node.js & NPM Installation
+
+To install on Mac:
+```
+$ brew update
+$ brew install node
+$ node -v
+$ npm -v
+```
+
+### Gulp.js Installation
+
+To install on Mac:
+```
+$ sudo npm install --global gulp
+```
+
+## Quick Start
+
+Clone the repo
+```
+$ git clone https://github.com/kimdj/OpenPOS.git
+```
+
+Change directory to the repo
+```
+$ cd OpenPOS
+```
+
+Install dependencies
+```
+$ npm install
+```
+
+Start the server
+```
+$ gulp start
+```
 
 
 
