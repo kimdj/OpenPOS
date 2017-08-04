@@ -10,48 +10,44 @@ if you start the server by typing node express.js and then open the browser at l
 // what is require()?
 // it is a Node.js built-in function that loads modules; the concept is similar to imports/includes
 
-// import the express module
+// import all Node.js modules
 var express = require('express');
-
-// init an express app
-var app = express();
-
-// block the header from containing information about the server (for security purposes)
-app.disable('x-powered-by');
+var mongo = require('mongodb');
+var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var path = require('path');
+var handlebars = require('express-handlebars');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var flash = require('connect-flash');
+var expressValidator = require('express-validator');
+var session = require('express-session');
+var parseurl = require('parseurl');
 
 // setup a connection with the database running locally on the default port (27017)
-//var mongo = require('mongodb');
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/loginapp', { useMongoClient: true });
+mongoose.connect('mongodb://localhost/loginapp', {
+	useMongoClient: true
+});
 var db = mongoose.connection;
 
 // define the routes
 var routes = require('./routes/index.js');
 var users = require('./routes/users.js');
 
-// passport init
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-app.use(passport.initialize());
-app.use(passport.session());
+// initialize an express app
+var app = express();
+
+// block the header from containing information about the server (for security purposes)
+app.disable('x-powered-by');
 
 // set up handlebars:
 // create a directory named views and then another named layouts in it
 // create these files in the views directory and define the HTML in them:
 // home.handlebars, about.handlebars, 404.handlebars and 500.handlebars
 
-// setup the handlebars view engine
-var handlebars = require('express-handlebars');
-app.set('view engine', 'handlebars');
-
-// app.set() sets a name to value, where name is one of the properties from the app settings table
-// calling app.set('foo', true) for a Boolean property is the same as calling app.enable('foo')
-// similarly, calling app.set('foo', false) for a Boolean property is the same as calling app.disable('foo')
-// retrieve the value of a setting with app.get()
-
 // set views to the path -> ./views
 // in Node.js, __dirname is always the directory in which the currently executing script resides
-var path = require('path');
 app.set('views', path.join(__dirname, 'views'));
 
 // define main.handlebars as the default layout
@@ -59,10 +55,12 @@ app.engine('handlebars', handlebars({
 	defaultLayout: 'layout'
 }));
 
+// setup the handlebars view engine
+app.set('view engine', 'handlebars');
+
 // body-parser middleware
 // required when using POST requests to parse encoded data
 // npm install --save body-parser
-var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: false
@@ -71,13 +69,63 @@ app.use(bodyParser.urlencoded({
 // import credentials which are used for secure cookies
 // install the cookie middleware
 // npm install --save cookie-parser
-var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 //var credentials = require('./credentials.js');
 //app.use(require('cookie-parser')(credentials.cookieSecret));
 
 // express.static built-in middleware function allows the server to serve static files
 app.use(express.static(path.join(__dirname, 'public')));
+
+// express session
+// storing session information can be done in a few ways:
+// for development, we can work with a memory store
+// stores the session id in a cookie and the session data on the server
+// npm install --save express-session
+app.use(session({
+	// the secret string used to sign the session id cookie
+	secret: 'secret',
+	//secret: credentials.cookieSecret,
+
+	// doesn't store data if a session is new and hasn't been modified
+	saveUninitialized: true,
+
+	// only save back to the session store if a change was made
+	resave: true
+}));
+
+// passport init
+app.use(passport.initialize());
+app.use(passport.session());
+
+// express validator
+app.use(expressValidator({
+	errorFormatter: function (param, msg, value) {
+		var namespace = param.split('.'),
+			root = namespace.shift(),
+			formParam = root;
+
+		while (namespace.length) {
+			formParam += '[' + namespace.shift() + ']';
+		}
+		return {
+			param: formParam,
+			msg: msg,
+			value: value
+		};
+	}
+}));
+
+// connect flash
+app.use(flash());
+
+// global vars
+app.use(function (req, res, next) {
+	res.locals.success_msg = req.flash('success_msg');
+	res.locals.error_msg = req.flash('error_msg');
+	res.locals.error = req.flash('error');
+	res.locals.user = req.user || null;
+	next();
+});
 
 // define some routes
 // app.get receives a path and a function and it defines our routes
@@ -95,12 +143,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
+// defines the port the server should run on
+app.set('port', (process.env.PORT || 3000));
+
+// starts a UNIX socket and listens for connections on the given path
+// this method is identical to Node’s http.Server.listen()
+app.listen(app.get('port'), function () {
+	console.log('Server started on port ' +
+		app.get('port') + '; press Ctrl-C to terminate');
+});
+
+
+
+
+
 // this is an example of middleware It receives a request object, response object and the next function
 // as we look for the correct information to serve it executes and then next() says to continue down the pipeline
 /*app.use(function (req, res, next) {
 	console.log('Looking for URL : ' + req.url);
 	next();
-});*/
+});
 
 // you can also report and throw errors
 app.get('/junk', function (req, res, next) {
@@ -114,7 +176,7 @@ app.use(function (err, req, res, next) {
 	next();
 });
 
-/*
+
 // if we want /about/contact we'd have to define it before this route
 app.get('/about', function (req, res) {
 
@@ -194,25 +256,6 @@ app.get('/deletecookie', function (req, res) {
 	res.clearCookie('username');
 	res.send('username Cookie Deleted');
 });
-*/
-
-// express session
-// storing session information can be done in a few ways:
-// for development, we can work with a memory store
-// stores the session id in a cookie and the session data on the server
-// npm install --save express-session
-var session = require('express-session');
-app.use(session({
-	// only save back to the session store if a change was made
-	resave: true,
-
-	// doesn't store data if a session is new and hasn't been modified
-	saveUninitialized: true,
-
-	// the secret string used to sign the session id cookie
-	secret: 'secret'
-	//secret: credentials.cookieSecret,
-}));
 
 // this is another example of middleware
 app.use(function (req, res, next) {
@@ -227,7 +270,7 @@ app.use(function (req, res, next) {
 
 	// parseurl provides info on the url of a request object
 	// npm install --save parseurl
-	var parseurl = require('parseurl');
+
 	var pathname = parseurl(req).pathname;
 
 	// increment the value in the array using the path as the key
@@ -236,40 +279,9 @@ app.use(function (req, res, next) {
 	// continue down the pipeline
 	next();
 });
+*/
 
 
-
-// express validator
-var expressValidator = require('express-validator');
-app.use(expressValidator({
-	errorFormatter: function (param, msg, value) {
-		var namespace = param.split('.'),
-			root = namespace.shift(),
-			formParam = root;
-
-		while (namespace.length) {
-			formParam += '[' + namespace.shift() + ']';
-		}
-		return {
-			param: formParam,
-			msg: msg,
-			value: value
-		};
-	}
-}));
-
-// connect flash
-var flash = require('connect-flash');
-app.use(flash());
-
-// global vars
-app.use(function (req, res, next) {
-	res.locals.success_msg = req.flash('success_msg');
-	res.locals.error_msg = req.flash('error_msg');
-	res.locals.error = req.flash('error');
-	res.locals.user = req.user || null;
-	next();
-});
 
 /*
 // when this page is accessed get the correct value from the views array
@@ -316,7 +328,6 @@ app.get('/writefile', function (req, res, next) {
 		res.send("The File : " + data.toString());
 	});
 });
-*/
 
 // defines a custom 404 Page and we use app.use because the request didn't match a route (must follow the routes)
 app.use(function (req, res) {
@@ -338,19 +349,9 @@ app.use(function (err, req, res, next) {
 	// point at the 500.handlebars view
 	res.render('500');
 });
+*/
 
 /*****************************************************************/
-
-// defines the port the server should run on
-app.set('port', (process.env.PORT || 3000));
-
-// starts a UNIX socket and listens for connections on the given path
-// this method is identical to Node’s http.Server.listen()
-app.listen(app.get('port'), function () {
-	console.log('Server started on port ' +
-		app.get('port') + '; press Ctrl-C to terminate');
-});
-
 
 // raw handlebars  ==>  {{{{ title }}}} instead of {{ title }} to avoid conflict w/ Angular syntax
 /*Handlebars.registerHelper('raw', function (options) {
