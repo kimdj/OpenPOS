@@ -144,7 +144,7 @@ app.use('/', routes);
 app.use('/users', users);
 
 // defines the port the server should run on
-app.set('port', (process.env.PORT || 3000));
+app.set('port', (process.env.PORT || 5000));
 
 // starts a UNIX socket and listens for connections on the given path
 // this method is identical to Node’s http.Server.listen()

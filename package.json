@@ -1,12 +1,14 @@
 {
 	"name": "OpenPOS",
 	"version": "1.0.0",
-	"description": "Simple Authentication System",
-	"main": "app.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
+	"description": "A Simple Open Source POS System",
+	"main": "express.js",
 	"author": "David Kim",
+	"email": "kim.david.j@gmail.com",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kimdj/OpenPOS.git"
+	},
 	"license": "MIT",
 	"dependencies": {
 		"bcryptjs": "*",
@@ -29,15 +31,18 @@
 		"bootstrap": "^3.1.1",
 		"angular-route": "^1.3.x",
 		"angular-resource": "^1.3.x",
-		"angular-animate": "^1.3.x"
+		"angular-animate": "^1.3.x",
+		"serve-static": "^1.3.0"
 	},
 	"devDependencies": {
-		"gulp": "latest",
-		"gulp-util": "latest",
-		"gulp-sass": "latest",
+		"browser-sync": "^2.18.13",
+		"gulp": "^3.9.1",
 		"gulp-coffee": "latest",
-		"gulp-uglify": "latest",
 		"gulp-concat": "latest",
-		"gulp-connect": "latest"
+		"gulp-connect": "latest",
+		"gulp-sass": "latest",
+		"gulp-uglify": "latest",
+		"gulp-util": "latest",
+		"gulp-nodemon": "latest"
 	}
 }
