@@ -18,10 +18,18 @@ app.get('/contactlist', function (req, res) {
 
 app.post('/contactlist', function (req, res) {
 	console.log(req.body);
-	
+
 	// insert the input data into the db
 	// and send the new data from the db back to the controller
 	db.contactlist.insert(req.body, function (err, doc) {
+		res.json(doc);
+	});
+});
+
+app.delete('/contactlist/:id', function (req, res) {
+	var id = req.params.id;
+	console.log(id);
+	db.contactlist.remove({_id: mongojs.ObjectId(id)}, function (err, doc) {
 		res.json(doc);
 	});
 });
