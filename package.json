@@ -1,26 +1,38 @@
 {
-  "name": "contactlistapp",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "dependencies": {
-    "body-parser": "^1.10.2",
-    "express": "^4.11.1",
-    "mongojs": "^0.18.1"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kimdj/OpenPOS.git"
-  },
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/kimdj/OpenPOS"
-  },
-  "homepage": "https://github.com/kimdj/OpenPOS"
+	"name": "OpenPOS",
+	"version": "1.0.0",
+	"description": "Simple, Open Source POS System",
+	"main": "server.js",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.17.2",
+		"connect-flash": "^0.1.1",
+		"cookie-parser": "^1.4.3",
+		"express": "^4.15.4",
+		"express-handlebars": "^3.0.0",
+		"express-messages": "^1.0.1",
+		"express-session": "^1.15.5",
+		"express-validator": "^3.2.1",
+		"mongodb": "^2.2.31",
+		"mongojs": "^2.4.1",
+		"mongoose": "^4.10.8",
+		"passport": "^0.3.2",
+		"passport-http": "^0.3.0",
+		"passport-local": "^1.0.0"
+	},
+	"devDependencies": {},
+	"scripts": {
+		"start": "node server.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kimdj/OpenPOS.git"
+	},
+	"author": "David Kim",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/kimdj/OpenPOS"
+	},
+	"homepage": "https://github.com/kimdj/OpenPOS"
 }

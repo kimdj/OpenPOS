@@ -204,8 +204,8 @@ function AppCtrl($scope, $http) {
 		console.log($scope.product);
 		$http.post('/productlist', $scope.product).success(function (response) {
 			console.log("addProduct: " + response);
-			$scope.drinks.length = 0;  // fastest way to clear an array in JavaScript
-			refresh();  // refresh the Menu Panel
+			$scope.drinks.length = 0; // fastest way to clear an array in JavaScript
+			refresh(); // refresh the Menu Panel
 		});
 	};
 
@@ -213,8 +213,8 @@ function AppCtrl($scope, $http) {
 		console.log(id);
 		$http.delete('/productlist/' + id).success(function (response) {
 			console.log("remove: " + response);
-			$scope.drinks.length = 0;  // fastest way to clear an array in JavaScript
-			refresh();  // refresh the Menu Panel
+			$scope.drinks.length = 0; // fastest way to clear an array in JavaScript
+			refresh(); // refresh the Menu Panel
 		});
 	};
 }
