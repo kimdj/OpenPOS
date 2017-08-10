@@ -39,10 +39,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 
-// set static folder
-app.use(express.static(__dirname + "/public"));
-//app.use(express.static(path.join(__dirname, 'public')));
-
 // setup an express session
 app.use(session({
 	secret: 'secret',
@@ -101,7 +97,7 @@ app.use(function (req, res, next) {
 //  product list  --------------------------------------------------------------------------------
 
 app.get('/productlist', function (req, res) {
-	console.log("I received a GET request")
+	console.log("Finding product: " + req.body)
 
 	db2.productlist.find(function (err, docs) {
 		console.log(docs);
@@ -110,7 +106,7 @@ app.get('/productlist', function (req, res) {
 });
 
 app.post('/productlist', function (req, res) {
-	console.log(req.body);
+	console.log("Inserting product: " + req.body);
 
 	// insert the input data into the db
 	// and send the new data from the db back to the controller
@@ -121,7 +117,7 @@ app.post('/productlist', function (req, res) {
 
 app.delete('/productlist/:id', function (req, res) {
 	var id = req.params.id;
-	console.log(id);
+	console.log("Removing product id: " + id);
 	db2.productlist.remove({
 		_id: mongojs.ObjectId(id)
 	}, function (err, doc) {
@@ -132,6 +128,11 @@ app.delete('/productlist/:id', function (req, res) {
 //  product list  --------------------------------------------------------------------------------
 
 
+
+// setup static routes
+//app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
+//app.use(express.static(path.join(__dirname, 'public')));
 
 // setup routes
 app.use('/', routes);

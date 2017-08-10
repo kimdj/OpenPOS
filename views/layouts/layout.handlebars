@@ -1,13 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="OpenPOS">
 
 <head>
-	<title>LoginApp</title>
+	<meta charset="utf-8">
+	<title>OpenPOS Demo</title>
+	<base href="/">
+
+	<!-- Bootstrap - Latest compiled and minified CSS -->
+	<!--	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css" />
+
+	<!-- jQuery -->
+	<!--	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+	<!-- AngularJS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular.min.js"></script>
+	<!--	<script src="https://code.angularjs.org/1.3.0-rc.2/angular.js"></script>-->
+
+	<!-- Bootstrap - Optional theme -->
+	<!--	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">-->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+	<!-- Local Stylesheet -->
+	<link href="/css/pos.css" rel="stylesheet" />
 	<link rel="stylesheet" href="/css/bootstrap.css" />
 	<link rel="stylesheet" href="/css/style.css" />
+
+	<!-- AngularJS controller -->
+	<script src="poscontroller.js"></script>
 </head>
 
-<body>
+<body data-ng-controller="PosController">
 	<div class="container">
 		<div class="header clearfix">
 			<nav>
@@ -33,18 +57,31 @@
 				<div class="alert alert-danger">{{error_msg}}</div>
 				{{/if}} {{#if error}}
 				<div class="alert alert-danger">{{error}}</div>
-				{{/if}} {{{body}}}
+				{{/if}}
 			</div>
-
-
 		</div>
-
-		<footer class="footer">
-			<p>&copy; 2015 LoginApp, Inc.</p>
-		</footer>
-
 	</div>
 	<!-- /container -->
+
+	<!-- template views injection -->
+	{{{body}}}
+	<!-- template views injection -->
 </body>
 
 </html>
+
+
+<script>
+	$(document).ready(function() {
+		$("#myTab a").click(function(e) {
+			e.preventDefault();
+			$(this).tab('show');
+		});
+
+		$('#foo').keypress(function(e) {
+			if (e.keyCode == 13)
+				$('#bar').click();
+		});
+	});
+
+</script>

@@ -38,7 +38,8 @@
 					<!-- Brand and toggle get grouped for better mobile display -->
 					<div class="navbar-header">
 						<a class="navbar-brand" href="#">OpenPOS Demo</a>
-						<a class="navbar-brand" href="/users/logout" align="right">Logout</a>
+						<a class="navbar-brand">{{displayUsername()}}</a>
+						<a class="navbar-brand" href="/users/logout">Logout</a>
 					</div>
 				</div>
 				<!-- /.container-fluid -->
@@ -157,14 +158,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<div>
-		<p>
-			<strong>id</strong>: {{user._id}}<br>
-			<strong>email</strong>: {{user.local.email}}<br>
-			<strong>password</strong>: {{user.local.password}}
-		</p>
 	</div>
 </body>
 

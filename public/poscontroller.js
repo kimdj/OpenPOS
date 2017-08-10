@@ -1,5 +1,10 @@
-// Code goes here
 var app = angular.module('OpenPOS', []);
+
+// change Angular's {{foo}} -> {[{bar}]} to avoid clashing with Handlebars syntax
+app.config(function ($interpolateProvider) {
+	$interpolateProvider.startSymbol('{[{');
+	$interpolateProvider.endSymbol('}]}');
+});
 
 app.controller('PosController', function ($scope, $http) {
 	console.log("Hello world from PosController/poscontroller.js");
@@ -62,6 +67,12 @@ app.controller('PosController', function ($scope, $http) {
 				$scope.order.splice(i, 1);
 			}
 		}
+	};
+
+	$scope.displayUsername = function (req, res) {
+		$scope.username = "USERNAME";
+		//$scope.username = req.user.username;
+		return "Welcome, " + $scope.username;
 	};
 
 	$scope.getTotal = function () {
