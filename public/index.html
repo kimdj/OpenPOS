@@ -110,38 +110,44 @@
 						<ul id="myTab" class="nav nav-tabs" role="tablist">
 							<li role="presentation" class="active"><a href="#drink" role="tab" data-toggle="tab">Drinks</a></li>
 							<li role="presentation"><a href="#food" role="tab" data-toggle="tab">Food</a></li>
-							<li role="presentation"><a href="#new" role="tab" data-toggle="tab">New Item</a></li>
+							<li role="presentation"><a href="#new" role="tab" data-toggle="tab">Edit Items</a></li>
 						</ul>
 						<div class="tab-content">
+							<br />
 							<div role="tabpanel" class="tab-pane active" id="drink">
 								<button class="btn btn-primary btn-pos btn-marginTop" data-ng-repeat="item in drinks" data-ng-bind="item.name" data-ng-click="addToOrder(item,1)"></button>
 							</div>
 							<div role="tabpanel" class="tab-pane" id="food">
 								<button class="btn btn-warning btn-pos btn-marginTop" data-ng-repeat="item in foods" data-ng-bind="item.name" data-ng-click="addToOrder(item,1)"></button>
 							</div>
-							<div role="tabpanel" class="tab-pane" id="new">
+							<div role="tabpanel" class="tab-pane" id="new" ng-controller="AppCtrl">
 								<br />
-								<form class="form" name="formCreate" novalidate>
-									<div class="col-md-4">
-										<label>Name</label>
-										<input type="text" class="form-control" data-ng-model="new.name" required />
-									</div>
-									<div class="col-md-3">
-										<label>Price</label>
-										<input type="number" class="form-control" data-ng-model="new.price" required />
-									</div>
-									<div class="col-md-3">
-										<label>Category</label>
-										<select class="form-control" data-ng-model="new.category" required>
-                                            <option>Drinks</option>
-                                            <option>Foods</option>
-                                        </select>
-									</div>
-									<div class="col-md-1">
-										<br />
-										<button class="btn btn-default btn-marginTop" data-ng-click="addNewItem(new)" data-ng-disabled="formCreate.$invalid">Add</button>
-									</div>
-								</form>
+								<h1>Add A New Item</h1>
+
+								<table class="table">
+									<thead>
+										<tr>
+											<th>Name</th>
+											<th>Price</th>
+											<th>Category</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><input class="form-control" ng-model="product.name"></td>
+											<td><input class="form-control" ng-model="product.price"></td>
+											<td><input class="form-control" ng-model="product.category"></td>
+											<td><button class="btn btn-primary" ng-click="addProduct()">Add Item</button></td>
+										</tr>
+										<tr ng-repeat="product in productlist">
+											<td>{{product.name}}</td>
+											<td>{{product.price}}</td>
+											<td>{{product.category}}</td>
+											<td><button class="btn btn-danger" ng-click="remove(product._id)">Remove</button></td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -152,39 +158,6 @@
 			</div>
 		</div>
 	</div>
-
-
-	<div class="container" ng-controller="AppCtrl">
-		<h1>Add A Product To The Database</h1>
-
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Price</th>
-					<th>Category</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><input class="form-control" ng-model="product.name"></td>
-					<td><input class="form-control" ng-model="product.price"></td>
-					<td><input class="form-control" ng-model="product.category"></td>
-					<td><button class="btn btn-primary" ng-click="addProduct()">Add Product</button></td>
-				</tr>
-				<tr ng-repeat="product in productlist">
-					<td>{{product.name}}</td>
-					<td>{{product.price}}</td>
-					<td>{{product.category}}</td>
-					<td><button class="btn btn-danger" ng-click="remove(product._id)">Remove</button></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-
-
-
 </body>
 
 </html>
