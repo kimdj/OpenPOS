@@ -1392,6 +1392,7 @@ th {
 html {
 	font-size: 10px;
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	height: 100%;
 }
 
 body {
@@ -1401,8 +1402,9 @@ body {
 	font-size: 24px;
 	line-height: 1.42857143;
 	color: #333;
-/*	background-color: #fff;*/
+	/*	background-color: #fff;*/
 	background-color: #64627B;
+	height: 100%;
 }
 
 input,
@@ -2021,7 +2023,7 @@ pre code {
 	margin-right: auto;
 	margin-left: auto;
 	background-color: #64627B;
-	border:1px solid #64627B;
+	border: 1px solid #64627B;
 }
 
 .row {
@@ -5416,14 +5418,16 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
 }
 
 .navbar-default .navbar-brand {
-/*	color: #777;*/
+	/*	color: #777;*/
 	color: #fff;
 }
 
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-	color: #5e5e5e;
-	background-color: transparent;
+	/*color: #5e5e5e;
+	background-color: transparent;*/
+	color: #ffffff;
+	background-color: #64627B;
 }
 
 .navbar-default .navbar-text {
@@ -6558,7 +6562,7 @@ button.list-group-item-danger.active:focus {
 .panel {
 	margin-bottom: 20px;
 	background-color: #fff;
-/*	background-color: #DCDBE8;*/
+	/*	background-color: #DCDBE8;*/
 	border: 1px solid transparent;
 	border-radius: 10px;
 	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
@@ -6598,7 +6602,7 @@ button.list-group-item-danger.active:focus {
 
 .panel-footer {
 	padding: 10px 15px 10px 15px;
-/*	background-color: #f5f5f5;*/
+	/*	background-color: #f5f5f5;*/
 	background-color: #E8E7F2;
 	border-top: 1px solid #ddd;
 	border-bottom-right-radius: 3px;
@@ -7906,11 +7910,35 @@ button.close {
 	td.visible-sm {
 		display: table-cell !important;
 	}
+	
+	/* TESTING */
+	#item-qty,
+	#item-name {
+		float: left;
+	}
+	#item-total-cost,
+	#item-cost,
+	#item-add-remove,
+	#item-delete {
+		float: right;
+	}
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
 	.visible-sm-block {
 		display: block !important;
+	}
+	
+	/* TESTING */
+	#item-qty,
+	#item-name {
+		float: left;
+	}
+	#item-total-cost,
+	#item-cost,
+	#item-add-remove,
+	#item-delete {
+		float: right;
 	}
 }
 
@@ -7918,11 +7946,35 @@ button.close {
 	.visible-sm-inline {
 		display: inline !important;
 	}
+	
+	/* TESTING */
+	#item-qty,
+	#item-name {
+		float: left;
+	}
+	#item-total-cost,
+	#item-cost,
+	#item-add-remove,
+	#item-delete {
+		float: right;
+	}
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
 	.visible-sm-inline-block {
 		display: inline-block !important;
+	}
+	
+	/* TESTING */
+	#item-qty,
+	#item-name {
+		float: left;
+	}
+	#item-total-cost,
+	#item-cost,
+	#item-add-remove,
+	#item-delete {
+		float: right;
 	}
 }
 
@@ -8003,6 +8055,18 @@ button.close {
 @media (min-width: 768px) and (max-width: 991px) {
 	.hidden-sm {
 		display: none !important;
+	}
+	
+	/* TESTING */
+	#item-qty,
+	#item-name {
+		float: left;
+	}
+	#item-total-cost,
+	#item-cost,
+	#item-add-remove,
+	#item-delete {
+		float: right;
 	}
 }
 

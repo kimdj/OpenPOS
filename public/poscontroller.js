@@ -29,6 +29,8 @@ app.controller('PosController', function ($scope, $http) {
 		return date
 	};
 
+	$scope.cdate = new Date();
+	
 	$scope.addToOrder = function (item, qty) {
 		var flag = 0;
 		if ($scope.order.length > 0) {

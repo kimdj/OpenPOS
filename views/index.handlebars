@@ -5,7 +5,7 @@
 				<div class="container-fluid">
 					<!-- Brand and toggle get grouped for better mobile display -->
 					<div class="navbar-header">
-						<center><a class="navbar-brand">Welcome, {{username}}. Today's Date is: [[getDate()]]</a></center>
+						<a class="navbar-brand">Welcome, {{username}}. Today's Date is: [[cdate | date:'dd/MM/yyyy hh:mm:ss a']]</a>
 					</div>
 				</div>
 			</div>
@@ -85,27 +85,26 @@
 						<div class="col-md-3 col-md-push-5 text-right"><span>Total Orders: </span><span class="badge">[[totOrders]]</span></div>
 					</div>
 				</div>
-				<div class="panel-body" style="max-height:320px; overflow:auto;">
+				<div class="panel-body" style="max-height:640px; overflow:scroll;">
 					<div class="text-warning" ng-hide="order.length" align="center">
 						Ready To Take Orders!
 					</div>
 					<ul class="list-group">
 						<li class="list-group-item" ng-repeat="item in order">
 							<div class="row">
-								<div class="col-md-1">
+								<div class="col-md-1" id="item-qty">
 									<span class="badge badge-left" ng-bind="item.qty"></span>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-4" id="item-name">
 									[[item.name]]
 								</div>
-								<div class="col-md-1">
-									<!--<div class="label label-success">[[item.price * item.qty | currency:"$":0]]</div>-->
+								<div class="col-md-1" id="item-total-cost">
 									<div class="label label-success">[[item.price * item.qty | currency:"$":0]]</div>
 								</div>
-								<div class="col-md-1 col-md-push-1">
+								<div class="col-md-1 col-md-push-1" id="item-cost">
 									<div class="label label-warning">[[item.price | currency:"$":0]]</div>
 								</div>
-								<div class="col-md-2 col-md-push-2">
+								<div class="col-md-2 col-md-push-2" id="item-add-remove">
 									<button class="btn btn-success btn-xs" ng-click="addToOrder(item,1)">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>
@@ -113,7 +112,7 @@
                                             <span class="glyphicon glyphicon-minus"></span>
                                         </button>
 								</div>
-								<div class="col-md-1 col-md-push-2">
+								<div class="col-md-1 col-md-push-2" id="item-delete">
 									<button class="btn btn-danger btn-xs" ng-click="removeItem(item)">
                                             <span class="glyphicon glyphicon-trash"></span>
                                         </button>
@@ -123,7 +122,7 @@
 					</ul>
 				</div>
 				<div class="panel-footer" ng-show="order.length">
-					<h3><span class="label label-primary">Total: [[getTotal() | currency:" $":0]]</span></h3>
+					<span class="label label-primary" style="margin-top: 10px; margin-bottom: 10px;">Total: [[getTotal() | currency:" $":0]]</span>
 				</div>
 				<div class="panel-footer" ng-show="order.length">
 					<div>
