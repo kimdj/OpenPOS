@@ -80,12 +80,14 @@ gulp.task('default', ['connect', 'watch']);
 var exec = require('child_process').exec;
 
 gulp.task('start', function (cb) {
-	exec('mongod', function (err, stdout, stderr) {
+	exec('mongod --dbpath ./data/db', function (err, stdout, stderr) {
+		console.log("Starting mongod");
 		console.log(stdout);
 		console.log(stderr);
 		cb(err);
 	});
 	exec('node server.js', function (err, stdout, stderr) {
+		console.log("Starting server.js");
 		console.log(stdout);
 		console.log(stderr);
 		cb(err);
