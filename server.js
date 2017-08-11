@@ -19,6 +19,7 @@ var express = require('express'),
 	users = require('./routes/users');
 
 
+
 // init express
 var app = express();
 
@@ -35,7 +36,8 @@ app.set('view engine', 'handlebars');
 // setup bodyParser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-	extended: false
+	//	extended: false
+	extended: true
 }));
 app.use(cookieParser());
 
@@ -82,25 +84,16 @@ app.use(function (req, res, next) {
 
 
 
-//@#(*$&@(*#&@)($^*)($*%)(*$@&(@*#&%(*#@&$)(@#*_%*@#()*%&@#(*$^*&@#^$*&^$@%^&*^($*&@#)($&)(#@&*$)(//
-//@#(*$&@(*#&@)($^*)($*%)(*$@&(@*#&%(*#@&$)(@#*_%*@#()*%&@#(*$^*&@#^$*&^$@%^&*^($*&@#)($&)(#@&*$)(//
-//@#(*$&@(*#&@)($^*)($*%)(*$@&(@*#&%(*#@&$)(@#*_%*@#()*%&@#(*$^*&@#^$*&^$@%^&*^($*&@#)($&)(#@&*$)(//
-//@#(*$&@(*#&@)($^*)($*%)(*$@&(@*#&%(*#@&$)(@#*_%*@#()*%&@#(*$^*&@#^$*&^$@%^&*^($*&@#)($&)(#@&*$)(//
-//@#(*$&@(*#&@)($^*)($*%)(*$@&(@*#&%(*#@&$)(@#*_%*@#()*%&@#(*$^*&@#^$*&^$@%^&*^($*&@#)($&)(#@&*$)(//
-//@#(*$&@(*#&@)($^*)($*%)(*$@&(@*#&%(*#@&$)(@#*_%*@#()*%&@#(*$^*&@#^$*&^$@%^&*^($*&@#)($&)(#@&*$)(//
-//@#(*$&@(*#&@)($^*)($*%)(*$@&(@*#&%(*#@&$)(@#*_%*@#()*%&@#(*$^*&@#^$*&^$@%^&*^($*&@#)($&)(#@&*$)(//
-//@#(*$&@(*#&@)($^*)($*%)(*$@&(@*#&%(*#@&$)(@#*_%*@#()*%&@#(*$^*&@#^$*&^$@%^&*^($*&@#)($&)(#@&*$)(//
-//@#(*$&@(*#&@)($^*)($*%)(*$@&(@*#&%(*#@&$)(@#*_%*@#()*%&@#(*$^*&@#^$*&^$@%^&*^($*&@#)($&)(#@&*$)(//
-
-
-
 //  product list  --------------------------------------------------------------------------------
 
 app.get('/productlist', function (req, res) {
-	console.log("Finding product: " + req.body)
 
-	db2.productlist.find(function (err, docs) {
-		console.log(docs);
+	console.log("username: ", req["user"].username);
+	var username = req["user"].username;
+
+	db2.productlist.find({
+		user: username
+	}, function (err, docs) {
 		res.json(docs);
 	});
 });
@@ -130,9 +123,7 @@ app.delete('/productlist/:id', function (req, res) {
 
 
 // setup static routes
-//app.use(express.static('public'));
 app.use(express.static(__dirname + '/public'));
-//app.use(express.static(path.join(__dirname, 'public')));
 
 // setup routes
 app.use('/', routes);

@@ -70,7 +70,8 @@ passport.use(new LocalStrategy(
 				if (err) throw err;
 				if (isMatch) {
 					return done(null, user);
-				} else {
+				}
+				else {
 					return done(null, false, {
 						message: 'Invalid password'
 					});

@@ -1391,8 +1391,10 @@ html {
 }
 
 body {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 14px;
+	/*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 24px;*/
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-size: 24px;
 	line-height: 1.42857143;
 	color: #333;
 	background-color: #fff;
@@ -1716,6 +1718,8 @@ a.text-info:focus {
 
 .text-warning {
 	color: #8a6d3b;
+	margin-top: 14px;
+	margin-left: 10px;
 }
 
 a.text-warning:hover,
@@ -3668,7 +3672,9 @@ select[multiple].input-lg {
 	font-weight: normal;
 	line-height: 1.42857143;
 	text-align: center;
-	white-space: nowrap;
+	/*white-space: nowrap;*/
+	white-space: normal !important;
+	word-wrap: break-word;
 	vertical-align: middle;
 	-ms-touch-action: manipulation;
 	touch-action: manipulation;
@@ -3678,8 +3684,8 @@ select[multiple].input-lg {
 	-ms-user-select: none;
 	user-select: none;
 	background-image: none;
-	border: 1px solid transparent;
-	border-radius: 4px;
+	border: 3px solid transparent;
+	border-radius: 14px;
 }
 
 .btn:focus,
@@ -5148,7 +5154,7 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
 .navbar-brand {
 	float: left;
 	height: 50px;
-	padding: 15px 15px;
+	padding: 15px 35px;
 	font-size: 18px;
 	line-height: 20px;
 }
@@ -8048,4 +8054,4 @@ button.close {
 }
 
 
-/*# sourceMappingURL=bootstrap.css.map */
+# sourceMappingURL=bootstrap.css.map

@@ -2,10 +2,11 @@ var app = angular.module('OpenPOS', []);
 
 // change Angular's {{foo}} -> {[{bar}]} to avoid clashing with Handlebars syntax
 app.config(function ($interpolateProvider) {
-	$interpolateProvider.startSymbol('{[{');
-	$interpolateProvider.endSymbol('}]}');
+	$interpolateProvider.startSymbol('[[');
+	$interpolateProvider.endSymbol(']]');
 });
 
+// main controller
 app.controller('PosController', function ($scope, $http) {
 	console.log("Hello world from PosController/poscontroller.js");
 
@@ -14,8 +15,6 @@ app.controller('PosController', function ($scope, $http) {
 	$scope.order = [];
 	$scope.new = {};
 	$scope.totOrders = 0;
-
-	var url = window.location.protocol + "://" + window.location.host + "/" + window.location.pathname;
 
 	$scope.getDate = function () {
 		var today = new Date();
@@ -69,12 +68,6 @@ app.controller('PosController', function ($scope, $http) {
 		}
 	};
 
-	$scope.displayUsername = function (req, res) {
-		$scope.username = "USERNAME";
-		//$scope.username = req.user.username;
-		return "Welcome, " + $scope.username;
-	};
-
 	$scope.getTotal = function () {
 		var tot = 0;
 		for (var i = 0; i < $scope.order.length; i++) {
@@ -95,7 +88,6 @@ app.controller('PosController', function ($scope, $http) {
 
 	var refresh = function () {
 		$http.get('/productlist').success(function (response) {
-			console.log("I got the data I requested");
 			$scope.productlist = response;
 			$scope.product = "";
 			console.log("RESPONSE: " + response);
@@ -124,21 +116,6 @@ app.controller('PosController', function ($scope, $http) {
 			$('#myTab a[href="#food"]').tab('show')
 		}
 	};
-
-	//	$scope.addNewItem = function (item) {
-	//		if (item.category === "Drinks") {
-	//			item.id = $scope.drinks.length + $scope.foods.length
-	//			$scope.drinks.push(item)
-	//			$scope.new = []
-	//			$('#myTab a[href="#drink"]').tab('show')
-	//		} else if (item.category === "Foods") {
-	//			item.id = $scope.drinks.length + $scope.foods.length
-	//			$scope.foods.push(item)
-	//			$scope.new = []
-	//			$('#myTab a[href="#food"]').tab('show')
-	//		}
-	//	};
-
 });
 
 
@@ -150,13 +127,12 @@ function AppCtrl($scope, $http) {
 		$scope.drinks.length = 0; // fastest way to clear an array in JavaScript
 
 		$http.get('/productlist').success(function (response) {
-			console.log("I got the data I requested");
 			$scope.productlist = response;
 			$scope.product = "";
 			console.log("RESPONSE: " + response);
 
 			angular.forEach(response, function (item, key) {
-				console.log("pushing --> " + item.name);
+				console.log("adding menu item --> " + item.name);
 				$scope.drinks.push({
 					id: item._id,
 					name: item.name,
@@ -169,31 +145,18 @@ function AppCtrl($scope, $http) {
 	refresh();
 
 	$scope.addProduct = function () {
+		$scope.product.user = $scope.uname;
 		console.log($scope.product);
 		$http.post('/productlist', $scope.product).success(function (response) {
-			console.log("addProduct: " + response);
-			//$scope.drinks.length = 0; // fastest way to clear an array in JavaScript
+			console.log("addProduct: " + $scope.product);
 			refresh(); // refresh the Menu Panel
 		});
-
-		//		if ($scope.product.category === "Drinks") {
-		//			//item.id = $scope.drinks.length + $scope.foods.length
-		//			//$scope.drinks.push(item)
-		//			$scope.new = []
-		//			$('#myTab a[href="#drink"]').tab('show')
-		//		} else if ($scope.product.category === "Foods") {
-		//			//item.id = $scope.drinks.length + $scope.foods.length
-		//			//$scope.foods.push(item)
-		//			$scope.new = []
-		//			$('#myTab a[href="#food"]').tab('show')
-		//		}
 	};
 
 	$scope.remove = function (id) {
 		console.log(id);
 		$http.delete('/productlist/' + id).success(function (response) {
 			console.log("remove: " + response);
-			//$scope.drinks.length = 0; // fastest way to clear an array in JavaScript
 			refresh(); // refresh the Menu Panel
 		});
 	};

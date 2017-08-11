@@ -1,9 +1,14 @@
 var express = require('express');
+var app = express();
 var router = express.Router();
 
 // Get Homepage
 router.get('/', ensureAuthenticated, function (req, res) {
-	res.render('index');
+	res.render('index', {
+		username: req.user.username
+	});
+
+//	console.log("SERVER SAYS: ", req.user.username);
 });
 
 function ensureAuthenticated(req, res, next) {
