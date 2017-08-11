@@ -8,7 +8,7 @@ app.config(function ($interpolateProvider) {
 
 // main controller
 app.controller('PosController', function ($scope, $http) {
-	console.log("Hello world from PosController/poscontroller.js");
+	//	console.log("Hello world from PosController/poscontroller.js");
 
 	$scope.drinks = [];
 	$scope.foods = [];
@@ -18,19 +18,6 @@ app.controller('PosController', function ($scope, $http) {
 	$scope.new = {};
 	$scope.totOrders = 0;
 
-	$scope.getDate = function () {
-		var today = new Date();
-		var mm = today.getMonth() + 1;
-		var dd = today.getDate();
-		var yyyy = today.getFullYear();
-
-		var date = dd + "/" + mm + "/" + yyyy
-
-		return date
-	};
-
-	$scope.cdate = new Date();
-	
 	$scope.addToOrder = function (item, qty) {
 		var flag = 0;
 		if ($scope.order.length > 0) {
@@ -97,7 +84,7 @@ app.controller('PosController', function ($scope, $http) {
 			//			console.log("RESPONSE: " + response);
 
 			angular.forEach(response, function (item, key) {
-				console.log("pushing --> " + item.name);
+				//				console.log("pushing --> " + item.name);
 				if (item.category === "Foods") {
 					$scope.foods.push({
 						id: item._id,
@@ -120,43 +107,24 @@ app.controller('PosController', function ($scope, $http) {
 			});
 		});
 	};
-
-//	$scope.addNewItem = function (item) {
-//		if (item.category === "Foods") {
-//			item.id = $scope.foods.length + $scope.drinks.length + $scope.other.length;
-//			//$scope.foods.push(item);
-//			$scope.new = [];
-//			$('#myTab a[href="#food"]').tab('show');
-//		} else if (item.category === "Drinks") {
-//			item.id = $scope.foods.length + $scope.drinks.length + $scope.other.length;
-//			//$scope.drinks.push(item);
-//			$scope.new = [];
-//			$('#myTab a[href="#drink"]').tab('show');
-//		} else {
-//			item.id = $scope.foods.length + $scope.drinks.length + $scope.other.length;
-//			//$scope.foods.push(item);
-//			$scope.new = [];
-//			$('#myTab a[href="#other"]').tab('show');
-//		}
-//	};
 });
 
 
 function AppCtrl($scope, $http) {
-	console.log("Hello world from AppCtrl/poscontroller.js");
+	//	console.log("Hello world from AppCtrl/poscontroller.js");
 
 	var refresh = function () {
 		$http.get('/productlist').success(function (response) {
 			$scope.foods.length = 0; // clear all the buttons from the Menu Panel
 			$scope.drinks.length = 0; // clear all the buttons from the Menu Panel
 			$scope.other.length = 0; // clear all the buttons from the Menu Panel
-			
+
 			$scope.productlist = response;
 			$scope.product = "";
 			//			console.log("RESPONSE: " + response);
 
 			angular.forEach(response, function (item, key) {
-				console.log("adding menu item --> " + item.name);
+				//				console.log("adding menu item --> " + item.name);
 
 				if (item.category === "Foods") {
 					$scope.foods.push({
@@ -187,7 +155,7 @@ function AppCtrl($scope, $http) {
 		$scope.product.user = $scope.uname;
 		console.log($scope.product);
 		$http.post('/productlist', $scope.product).success(function (response) {
-			console.log("addProduct: " + $scope.product);
+			//			console.log("addProduct: " + $scope.product);
 			refresh(); // refresh the Menu Panel
 		});
 	};
@@ -195,8 +163,21 @@ function AppCtrl($scope, $http) {
 	$scope.remove = function (id) {
 		console.log(id);
 		$http.delete('/productlist/' + id).success(function (response) {
-			console.log("remove: " + response);
+			//			console.log("remove: " + response);
 			refresh(); // refresh the Menu Panel
 		});
 	};
+}
+
+function TimeCtrl($scope, $timeout) {
+	$scope.clock = "loading clock..."; // initialize the time variable
+	$scope.tickInterval = 1000 //ms
+
+	var tick = function () {
+		$scope.clock = Date.now() // get the current time
+		$timeout(tick, $scope.tickInterval); // reset the timer
+	}
+
+	// start the timer
+	$timeout(tick, $scope.tickInterval);
 }
