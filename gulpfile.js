@@ -93,7 +93,8 @@ gulp.task('start', function (cb) {
 
 // default task
 gulp.task('default', function (cb) {
-	exec('mongod --dbpath ./data/db', function (err, stdout, stderr) {
+//	exec('mongod --dbpath ./data/db', function (err, stdout, stderr) {
+	exec('mongod --dbpath /data/db', function (err, stdout, stderr) {
 		console.log("Starting mongod");
 		console.log(stdout);
 		console.log(stderr);
