@@ -57,6 +57,14 @@
 										<td><input class="form-control" ng-model="product.name"></td>
 										<td><input class="form-control" ng-model="product.price"></td>
 										<td><input id="foo" class="form-control" ng-model="product.category"></td>
+										<!--
+										<td><select class="form-control" data-ng-model="product.category" required>
+                                            <option>Foods</option>
+											<option>Drinks</option>
+                                            <option>Other</option>
+                                        </select></td>
+-->
+
 										<td><button id="bar" class="btn btn-primary" ng-click="addProduct()">Add Item</button></td>
 									</tr>
 									<tr ng-repeat="product in productlist">

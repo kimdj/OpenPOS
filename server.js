@@ -86,18 +86,27 @@ app.use(function (req, res, next) {
 
 //  product list  --------------------------------------------------------------------------------
 
+var uname = "";
+
+function isEmpty(str) {
+	return (!str || 0 === str.length);
+}
+
 app.get('/productlist', function (req, res) {
-	
-//	console.log('typeof req["user"]: ', typeof req["user"]);
-//	console.log('typeof req["user"].username: ', typeof req["user"].username);
-//	console.log('req["user"]: ', req["user"]);
-//	console.log('req["user"].username: ', req["user"].username);
-//	console.log('req["user"].email: ', req["user"].email);
-//	console.log('req["user"].password: ', req["user"].password);
-	var username = req["user"].username;
+
+	if (isEmpty(uname)) {
+		uname = req["user"].username;
+	}
+	//	console.log('typeof req["user"]: ', typeof req["user"]);
+	//	console.log('typeof req["user"].username: ', typeof req["user"].username);
+	//		console.log('req["user"]: ', req["user"]);
+	//	console.log('req["user"].username: ', req["user"].username);
+	//	console.log('req["user"].email: ', req["user"].email);
+	//	console.log('req["user"].password: ', req["user"].password);
+	//	var uname = req["user"].username;
 
 	db2.productlist.find({
-		user: username
+		user: uname
 	}, function (err, docs) {
 		res.json(docs);
 	});

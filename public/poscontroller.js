@@ -41,6 +41,7 @@ app.controller('PosController', function ($scope, $http) {
 	};
 
 	$scope.removeOneEntity = function (item) {
+		console.log("removeOneEntity: " + item.name);
 		for (var i = 0; i < $scope.order.length; i++) {
 			if (item.id === $scope.order[i].id) {
 				item.qty -= 1;
@@ -52,6 +53,7 @@ app.controller('PosController', function ($scope, $http) {
 	};
 
 	$scope.removeItem = function (item) {
+		console.log("removeItem: " + item.name);
 		for (var i = 0; i < $scope.order.length; i++) {
 			if (item.id === $scope.order[i].id) {
 				$scope.order.splice(i, 1);
@@ -152,6 +154,29 @@ function AppCtrl($scope, $http) {
 	refresh();
 
 	$scope.addProduct = function () {
+//		var nameStr = $scope.product.name;
+//		var priceStr = $scope.product.price;
+//
+//		var nameRegex = /'name'=>'[^']{37,}?'/i; // 36 chars or less only
+//		var nameRegex2 = /^[a-zA-Z0-9_]*$/; // alphanumeric characters only
+//		var priceRegex = /^\d+(?:\.\d{0,2})$/; // 2 decimal places only
+//
+//		if (!nameRegex.text(nameStr)) {
+//			alert("Item name must be 36 characters long or less.");
+//		} else if (!nameRegex2.test(nameStr)) {
+//			alert("Item name can only contain letters, numbers or the underscore character.");
+//		} else if (!priceRegex.test(priceStr)) {
+//			alert("Please enter a valid price.");
+//		} else {
+//			$scope.product.user = $scope.uname;
+//			console.log($scope.product);
+//			$http.post('/productlist', $scope.product).success(function (response) {
+//				//			console.log("addProduct: " + $scope.product);
+//				refresh(); // refresh the Menu Panel
+//			});
+//		}
+
+
 		$scope.product.user = $scope.uname;
 		console.log($scope.product);
 		$http.post('/productlist', $scope.product).success(function (response) {
@@ -161,6 +186,7 @@ function AppCtrl($scope, $http) {
 	};
 
 	$scope.remove = function (id) {
+		console.log("remove: " + item.name);
 		console.log(id);
 		$http.delete('/productlist/' + id).success(function (response) {
 			//			console.log("remove: " + response);

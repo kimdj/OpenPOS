@@ -1,109 +1,103 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
-
-gulp.task('name', function () {
-	// implementation of the task
-});
-
-/*
-gulp.task('copy', function () {
-	gulp.src('index.html')
-		.pipe(gulp.dest('assets'))
-});
-*/
+var browserSync = require('browser-sync');
+var reload = browserSync.reload;
+var nodemon = require('gulp-nodemon');
 
 
 
-//gulp.task('log', function () {
-//	gutil.log('== My Log Task ==')
-//});
+var bs1 = browserSync.create("proxy1");
 
-/*
-var sass = require('gulp-sass');
+//var exec = require('child_process').exec;
+//
+//gulp.task('mongod', function (cb) {
+//	exec('mongod --dbpath /data/db', function (err, stdout, stderr) {
+//		console.log('Starting mongod');
+//		console.log(stdout);
+//		console.log(stderr);
+//		cb(err);
+//	});
+//})
 
-gulp.task('sass', function() {
-  gulp.src('styles/main.scss')
-  .pipe(sass({style: 'expanded'}))
-    .on('error', gutil.log)
-  .pipe(gulp.dest('assets'))
-});
-*/
-
-
-// minify and concatenate all JavaScript files together so that the server loads the page faster
-//var uglify = require('gulp-uglify'),
-//	concat = require('gulp-concat');
-
-//gulp.task('js', function () {
-//	gulp.src('scripts/*.js')
-//		.pipe(uglify())
-//		.pipe(concat('script.js'))
-//		.pipe(gulp.dest('assets'))
-//});
-
-// listen for a change and automatically do all the processing tasks
-//gulp.task('watch', function () {
-//	gulp.watch('scripts/hello.coffee', ['coffee']);
-//	gulp.watch('scripts/*.js', ['js']);
-//	gulp.watch('styles/main.scss', ['sass']);
-//});
-
-
-// create a server and setup live reload
-// live reload automatically reloads the browser to reflect changes in the code
-/*
-var connect = require('gulp-connect');
-
-gulp.task('connect', function () {
-	connect.server({
-		root: '.',
-		livereload: true
-	})
-});
-
-gulp.task('html', function () {
-  gulp.src('./app/*.html')
-    .pipe(connect.reload());
-});
- 
-gulp.task('watch', function () {
-  gulp.watch(['./app/*.html'], ['html']);
-});
- 
-gulp.task('default', ['connect', 'watch']);
-*/
-
-// start the database and web server
-var exec = require('child_process').exec;
-
-gulp.task('start', function (cb) {
-	exec('mongod --dbpath ./data/db', function (err, stdout, stderr) {
-		console.log("Starting mongod");
-		console.log(stdout);
-		console.log(stderr);
-		cb(err);
+//gulp.task('nodemon', ['mongod'], function (cb) {
+gulp.task('nodemon', function (cb) {
+	var callbackCalled = false;
+	return nodemon({
+		script: './server.js'
+	}).on('start', function () {
+		if (!callbackCalled) {
+			callbackCalled = true;
+			cb();
+		}
 	});
-	exec('node server.js', function (err, stdout, stderr) {
-		console.log("Starting server.js");
-		console.log(stdout);
-		console.log(stderr);
-		cb(err);
-	});
-})
+});
 
-// default task
-gulp.task('default', function (cb) {
+gulp.task('browser-sync', ['nodemon'], function () {
+	bs1.init({
+		proxy: "http://localhost:3000",
+		port: 3010,
+		ui: {
+			port: 3011
+		}
+	});
+
+	//	browserSync.init(null, {
+	//		proxy: "http://localhost:3000", // port of node server
+	//	});
+});
+
+gulp.task('default', ['browser-sync'], function () {
+	gulp.watch(["./views/*.handlebars"], reload);
+});
+
+
+
+//
+//gulp.task('start', ['browser-sync'], function (cb) {
 //	exec('mongod --dbpath ./data/db', function (err, stdout, stderr) {
-	exec('mongod --dbpath /data/db', function (err, stdout, stderr) {
-		console.log("Starting mongod");
-		console.log(stdout);
-		console.log(stderr);
-		cb(err);
-	});
-	exec('node server.js', function (err, stdout, stderr) {
-		console.log("Starting server.js");
-		console.log(stdout);
-		console.log(stderr);
-		cb(err);
-	});
-});
+//		console.log('Starting mongod');
+//		console.log(stdout);
+//		console.log(stderr);
+//		cb(err);
+//	});
+//	exec('node server.js', function (err, stdout, stderr) {
+//		console.log('Starting server.js');
+//		console.log(stdout);
+//		console.log(stderr);
+//		cb(err);
+//	});
+//})
+//
+//// default task
+//gulp.task('default', ['browser-sync'], function (cb) {
+//	//	exec('mongod --dbpath ./data/db', function (err, stdout, stderr) {
+//	exec('mongod --dbpath /data/db', function (err, stdout, stderr) {
+//		console.log('Starting mongod');
+//		console.log(stdout);
+//		console.log(stderr);
+//		cb(err);
+//	});
+//	exec('node server.js', function (err, stdout, stderr) {
+//		console.log('Starting server.js');
+//		console.log(stdout);
+//		console.log(stderr);
+//		cb(err);
+//	});
+//});
+//
+//// browser-sync task
+//gulp.task('browser-sync', ['browser-sync'], function (cb) {
+//	//	exec('mongod --dbpath ./data/db', function (err, stdout, stderr) {
+//	exec('mongod --dbpath /data/db', function (err, stdout, stderr) {
+//		console.log('Starting mongod');
+//		console.log(stdout);
+//		console.log(stderr);
+//		cb(err);
+//	});
+//	exec('node server.js', function (err, stdout, stderr) {
+//		console.log('Starting server.js');
+//		console.log(stdout);
+//		console.log(stderr);
+//		cb(err);
+//	});
+//});
