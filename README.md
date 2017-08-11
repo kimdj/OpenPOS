@@ -43,13 +43,6 @@ $ node -v
 $ npm -v
 ```
 
-### Gulp.js Installation
-
-To install on Mac:
-```
-$ sudo npm install --global gulp
-```
-
 ## Quick Start
 
 Clone the repo
@@ -59,7 +52,7 @@ $ git clone https://github.com/kimdj/OpenPOS.git
 
 Change directory to the repo
 ```
-$ cd OpenPOS
+$ cd ~/OpenPOS
 ```
 
 Install dependencies

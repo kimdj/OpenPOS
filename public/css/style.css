@@ -106,3 +106,8 @@ body {
 footer {
 	margin-top: 40px;
 }
+
+/* Angular's ng-cloak */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
