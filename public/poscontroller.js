@@ -12,6 +12,8 @@ app.controller('PosController', function ($scope, $http) {
 
 	$scope.drinks = [];
 	$scope.foods = [];
+	$scope.other = [];
+
 	$scope.order = [];
 	$scope.new = {};
 	$scope.totOrders = 0;
@@ -90,30 +92,49 @@ app.controller('PosController', function ($scope, $http) {
 		$http.get('/productlist').success(function (response) {
 			$scope.productlist = response;
 			$scope.product = "";
-			console.log("RESPONSE: " + response);
+			//			console.log("RESPONSE: " + response);
 
 			angular.forEach(response, function (item, key) {
 				console.log("pushing --> " + item.name);
-				$scope.drinks.push({
-					id: item._id,
-					name: item.name,
-					price: item.price
-				});
+				if (item.category === "Foods") {
+					$scope.foods.push({
+						id: item._id,
+						name: item.name,
+						price: item.price
+					});
+				} else if (item.category === "Drinks") {
+					$scope.drinks.push({
+						id: item._id,
+						name: item.name,
+						price: item.price
+					});
+				} else {
+					$scope.other.push({
+						id: item._id,
+						name: item.name,
+						price: item.price
+					});
+				}
 			});
 		});
 	};
 
 	$scope.addNewItem = function (item) {
-		if (item.category === "Drinks") {
-			item.id = $scope.drinks.length + $scope.foods.length
-			//$scope.drinks.push(item)
-			$scope.new = []
-			$('#myTab a[href="#drink"]').tab('show')
-		} else if (item.category === "Foods") {
-			item.id = $scope.drinks.length + $scope.foods.length
-			//$scope.foods.push(item)
-			$scope.new = []
-			$('#myTab a[href="#food"]').tab('show')
+		if (item.category === "Foods") {
+			item.id = $scope.foods.length + $scope.drinks.length + $scope.other.length;
+			//$scope.foods.push(item);
+			$scope.new = [];
+			$('#myTab a[href="#food"]').tab('show');
+		} else if (item.category === "Drinks") {
+			item.id = $scope.foods.length + $scope.drinks.length + $scope.other.length;
+			//$scope.drinks.push(item);
+			$scope.new = [];
+			$('#myTab a[href="#drink"]').tab('show');
+		} else {
+			item.id = $scope.foods.length + $scope.drinks.length + $scope.other.length;
+			//$scope.foods.push(item);
+			$scope.new = [];
+			$('#myTab a[href="#other"]').tab('show');
 		}
 	};
 });
@@ -123,21 +144,37 @@ function AppCtrl($scope, $http) {
 	console.log("Hello world from AppCtrl/poscontroller.js");
 
 	var refresh = function () {
-		// clear all the buttons from the Menu Panel
-		$scope.drinks.length = 0; // fastest way to clear an array in JavaScript
 
 		$http.get('/productlist').success(function (response) {
 			$scope.productlist = response;
 			$scope.product = "";
-			console.log("RESPONSE: " + response);
+			//			console.log("RESPONSE: " + response);
 
 			angular.forEach(response, function (item, key) {
 				console.log("adding menu item --> " + item.name);
-				$scope.drinks.push({
-					id: item._id,
-					name: item.name,
-					price: item.price
-				});
+
+				if (item.category === "Foods") {
+					$scope.foods.length = 0; // clear all the buttons from the Menu Panel
+					$scope.foods.push({
+						id: item._id,
+						name: item.name,
+						price: item.price
+					});
+				} else if (item.category === "Drinks") {
+					$scope.drinks.length = 0; // clear all the buttons from the Menu Panel
+					$scope.drinks.push({
+						id: item._id,
+						name: item.name,
+						price: item.price
+					});
+				} else {
+					$scope.other.length = 0; // clear all the buttons from the Menu Panel
+					$scope.other.push({
+						id: item._id,
+						name: item.name,
+						price: item.price
+					});
+				}
 			});
 		});
 	};

@@ -87,8 +87,13 @@ app.use(function (req, res, next) {
 //  product list  --------------------------------------------------------------------------------
 
 app.get('/productlist', function (req, res) {
-
-	console.log("username: ", req["user"].username);
+	
+//	console.log('typeof req["user"]: ', typeof req["user"]);
+//	console.log('typeof req["user"].username: ', typeof req["user"].username);
+//	console.log('req["user"]: ', req["user"]);
+//	console.log('req["user"].username: ', req["user"].username);
+//	console.log('req["user"].email: ', req["user"].email);
+//	console.log('req["user"].password: ', req["user"].password);
 	var username = req["user"].username;
 
 	db2.productlist.find({
@@ -99,7 +104,7 @@ app.get('/productlist', function (req, res) {
 });
 
 app.post('/productlist', function (req, res) {
-	console.log("Inserting product: " + req.body);
+	console.log("Adding item: ", req.body);
 
 	// insert the input data into the db
 	// and send the new data from the db back to the controller
@@ -110,7 +115,7 @@ app.post('/productlist', function (req, res) {
 
 app.delete('/productlist/:id', function (req, res) {
 	var id = req.params.id;
-	console.log("Removing product id: " + id);
+	console.log("Removing item - id: " + id);
 	db2.productlist.remove({
 		_id: mongojs.ObjectId(id)
 	}, function (err, doc) {
