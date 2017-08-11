@@ -329,6 +329,7 @@ th {
 
 .glyphicon-plus:before {
 	content: "\002b";
+	font-size: 24px;
 }
 
 .glyphicon-euro:before,
@@ -338,6 +339,7 @@ th {
 
 .glyphicon-minus:before {
 	content: "\2212";
+	font-size: 24px;
 }
 
 .glyphicon-cloud:before {
@@ -426,6 +428,8 @@ th {
 
 .glyphicon-trash:before {
 	content: "\e020";
+	font-size: 28px;
+	line-height: 38px;
 }
 
 .glyphicon-home:before {
@@ -1397,7 +1401,8 @@ body {
 	font-size: 24px;
 	line-height: 1.42857143;
 	color: #333;
-	background-color: #fff;
+/*	background-color: #fff;*/
+	background-color: #64627B;
 }
 
 input,
@@ -1786,6 +1791,7 @@ a.bg-danger:focus {
 	padding-bottom: 9px;
 	margin: 40px 0 20px;
 	border-bottom: 1px solid #eee;
+	color: #fff;
 }
 
 ul,
@@ -2014,6 +2020,8 @@ pre code {
 	padding-left: 15px;
 	margin-right: auto;
 	margin-left: auto;
+	background-color: #64627B;
+	border:1px solid #64627B;
 }
 
 .row {
@@ -2576,7 +2584,7 @@ pre code {
 		left: 50%;
 	}
 	.col-md-push-5 {
-		left: 41.66666667%;
+		left: 40%;
 	}
 	.col-md-push-4 {
 		left: 33.33333333%;
@@ -3097,6 +3105,7 @@ label {
 	max-width: 100%;
 	margin-bottom: 5px;
 	font-weight: bold;
+	color: #F0EFFE;
 }
 
 input[type="search"] {
@@ -4850,10 +4859,13 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
 
 .nav-tabs {
 	border-bottom: 1px solid #ddd;
+	text-align: center;
 }
 
 .nav-tabs>li {
-	float: left;
+	/*	float: left;*/
+	float: none;
+	display: inline-block;
 	margin-bottom: -1px;
 }
 
@@ -5015,6 +5027,7 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
 
 .tab-content>.tab-pane {
 	display: none;
+	text-align: center;
 }
 
 .tab-content>.active {
@@ -5155,7 +5168,7 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
 	float: left;
 	height: 50px;
 	padding: 15px 35px;
-	font-size: 18px;
+	font-size: 28px;
 	line-height: 20px;
 }
 
@@ -5403,7 +5416,8 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
 }
 
 .navbar-default .navbar-brand {
-	color: #777;
+/*	color: #777;*/
+	color: #fff;
 }
 
 .navbar-default .navbar-brand:hover,
@@ -5851,6 +5865,7 @@ a.label:focus {
 .label-primary {
 	/*background-color: #337ab7;*/
 	background-color: #228b22;
+	font-size: 28px;
 }
 
 .label-primary[href]:hover,
@@ -5861,6 +5876,7 @@ a.label:focus {
 .label-success {
 	/*background-color: #5cb85c;*/
 	background-color: #228b22;
+	font-size: 24px;
 }
 
 .label-success[href]:hover,
@@ -5880,6 +5896,7 @@ a.label:focus {
 .label-warning {
 	/*background-color: #f0ad4e;*/
 	background-color: #ff8c00;
+	font-size: 24px;
 }
 
 .label-warning[href]:hover,
@@ -5900,13 +5917,13 @@ a.label:focus {
 	display: inline-block;
 	min-width: 10px;
 	padding: 3px 7px;
-	font-size: 12px;
+	font-size: 22px;
 	font-weight: bold;
 	line-height: 1;
 	color: #fff;
 	text-align: center;
 	white-space: nowrap;
-	vertical-align: middle;
+	vertical-align: top;
 	background-color: #777;
 	border-radius: 10px;
 }
@@ -6307,6 +6324,7 @@ a.thumbnail.active {
 	margin-bottom: -1px;
 	background-color: #fff;
 	border: 1px solid #ddd;
+	font-size: 28px;
 }
 
 .list-group-item:first-child {
@@ -6540,8 +6558,9 @@ button.list-group-item-danger.active:focus {
 .panel {
 	margin-bottom: 20px;
 	background-color: #fff;
+/*	background-color: #DCDBE8;*/
 	border: 1px solid transparent;
-	border-radius: 4px;
+	border-radius: 10px;
 	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 	box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 }
@@ -6564,7 +6583,8 @@ button.list-group-item-danger.active:focus {
 .panel-title {
 	margin-top: 0;
 	margin-bottom: 0;
-	font-size: 16px;
+	margin-left: 10px;
+	font-size: 22px;
 	color: inherit;
 }
 
@@ -6577,15 +6597,16 @@ button.list-group-item-danger.active:focus {
 }
 
 .panel-footer {
-	padding: 10px 15px;
-	background-color: #f5f5f5;
+	padding: 10px 15px 10px 15px;
+/*	background-color: #f5f5f5;*/
+	background-color: #E8E7F2;
 	border-top: 1px solid #ddd;
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
 
 .panel-footer p {
-	padding: 7px 0px 0px 6px;
+	padding: 7px 10px 0px 6px;
 }
 
 .panel>.list-group,
@@ -8052,6 +8073,5 @@ button.close {
 		display: none !important;
 	}
 }
-
 
 # sourceMappingURL=bootstrap.css.map

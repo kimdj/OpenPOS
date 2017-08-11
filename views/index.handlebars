@@ -2,11 +2,11 @@
 	<div class="row">
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container-fluid">
-
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<center><a class="navbar-brand">Welcome, {{username}}.</a></center>
-					<!--<a class="navbar-brand" href="/users/logout">Logout</a>-->
+				<div class="container-fluid">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header">
+						<center><a class="navbar-brand">Welcome, {{username}}. Today's Date is: [[getDate()]]</a></center>
+					</div>
 				</div>
 			</div>
 			<!-- /.container-fluid -->
@@ -22,16 +22,72 @@
 	<div class="row">
 		<div class="col-md-6">
 			<div class="panel panel-primary">
+				<div class="panel-body">
+					<ul id="myTab" class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active"><a href="#food" role="tab" data-toggle="tab">Foods</a></li>
+						<li role="presentation"><a href="#drink" role="tab" data-toggle="tab">Drinks</a></li>
+						<li role="presentation"><a href="#other" role="tab" data-toggle="tab">Other</a></li>
+						<li role="presentation"><a href="#new" role="tab" data-toggle="tab">Edit Items</a></li>
+					</ul>
+					<div class="tab-content">
+						<br />
+						<div role="tabpanel" class="tab-pane active" id="food">
+							<button class="btn btn-info btn-pos btn-marginTop" data-ng-repeat="item in foods" data-ng-bind="item.name" data-ng-click="addToOrder(item,1)"></button>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="drink">
+							<button class="btn btn-primary btn-pos btn-marginTop" data-ng-repeat="item in drinks" data-ng-bind="item.name" data-ng-click="addToOrder(item,1)"></button>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="other">
+							<button class="btn btn-warning btn-pos btn-marginTop" data-ng-repeat="item in other" data-ng-bind="item.name" data-ng-click="addToOrder(item,1)"></button>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="new" ng-controller="AppCtrl">
+							<h1>Add A New Item</h1>
+
+							<table class="table" style="table-layout:fixed">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Price</th>
+										<th>Category</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><input class="form-control" ng-model="product.name"></td>
+										<td><input class="form-control" ng-model="product.price"></td>
+										<td><input id="foo" class="form-control" ng-model="product.category"></td>
+										<td><button id="bar" class="btn btn-primary" ng-click="addProduct()">Add Item</button></td>
+									</tr>
+									<tr ng-repeat="product in productlist">
+										<td>[[product.name]]</td>
+										<td>[[product.price]]</td>
+										<td>[[product.category]]</td>
+										<td><button class="btn btn-danger" ng-click="remove(product._id)">Remove</button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<p>&copy; 2017 David Kim</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<div class="row">
 						<div class="col-md-4"><span class="panel-title">Order Summary</span></div>
-						<div class="col-md-4"><span>Today is: [[getDate()]]</span></div>
-						<div class="col-md-3 col-md-push-1"><span>Total Orders - </span><span class="badge">[[totOrders]]</span></div>
+						<div class="col-md-4"><span></span></div>
+						<div class="col-md-3 col-md-push-5 text-right"><span>Total Orders: </span><span class="badge">[[totOrders]]</span></div>
 					</div>
 				</div>
 				<div class="panel-body" style="max-height:320px; overflow:auto;">
-					<div class="text-warning" ng-hide="order.length">
-						Nothing ordered yet!
+					<div class="text-warning" ng-hide="order.length" align="center">
+						Ready To Take Orders!
 					</div>
 					<ul class="list-group">
 						<li class="list-group-item" ng-repeat="item in order">
@@ -67,70 +123,13 @@
 					</ul>
 				</div>
 				<div class="panel-footer" ng-show="order.length">
-					<h3><span class="label label-primary">Total: [[getTotal() | currency:"USD $ ":0]]</span></h3>
+					<h3><span class="label label-primary">Total: [[getTotal() | currency:" $":0]]</span></h3>
 				</div>
 				<div class="panel-footer" ng-show="order.length">
 					<div>
 						<span class="btn btn-danger btn-marginTop" ng-click="checkout()" ng-disabled="!order.length">Checkout</span>
 						<span class="btn btn-default btn-marginTop" style="float:right" ng-click="clearOrder()" ng-disabled="!order.length">Clear</span>
 					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-md-6">
-			<div class="panel panel-primary">
-				<div class="panel-body">
-					<ul id="myTab" class="nav nav-tabs" role="tablist">
-						<li role="presentation" class="active"><a href="#food" role="tab" data-toggle="tab">Foods</a></li>
-						<li role="presentation"><a href="#drink" role="tab" data-toggle="tab">Drinks</a></li>
-						<li role="presentation"><a href="#other" role="tab" data-toggle="tab">Other</a></li>
-						<li role="presentation"><a href="#new" role="tab" data-toggle="tab">Edit Items</a></li>
-					</ul>
-					<div class="tab-content">
-						<br />
-						<div role="tabpanel" class="tab-pane active" id="food">
-							<button class="btn btn-warning btn-pos btn-marginTop" data-ng-repeat="item in foods" data-ng-bind="item.name" data-ng-click="addToOrder(item,1)"></button>
-						</div>
-						<div role="tabpanel" class="tab-pane" id="drink">
-							<button class="btn btn-primary btn-pos btn-marginTop" data-ng-repeat="item in drinks" data-ng-bind="item.name" data-ng-click="addToOrder(item,1)"></button>
-						</div>
-						<div role="tabpanel" class="tab-pane" id="other">
-							<button class="btn btn-warning btn-pos btn-marginTop" data-ng-repeat="item in other" data-ng-bind="item.name" data-ng-click="addToOrder(item,1)"></button>
-						</div>
-						<div role="tabpanel" class="tab-pane" id="new" ng-controller="AppCtrl">
-							<br />
-							<h1>Add A New Item</h1>
-
-							<table class="table">
-								<thead>
-									<tr>
-										<th>Name</th>
-										<th>Price</th>
-										<th>Category</th>
-										<th>Action</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td><input class="form-control" ng-model="product.name"></td>
-										<td><input class="form-control" ng-model="product.price"></td>
-										<td><input id="foo" class="form-control" ng-model="product.category"></td>
-										<td><button id="bar" class="btn btn-primary" ng-click="addProduct()">Add Item</button></td>
-									</tr>
-									<tr ng-repeat="product in productlist">
-										<td>[[product.name]]</td>
-										<td>[[product.price]]</td>
-										<td>[[product.category]]</td>
-										<td><button class="btn btn-danger" ng-click="remove(product._id)">Remove</button></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-				<div class="panel-footer">
-					<p>&copy; 2017 David Kim</p>
 				</div>
 			</div>
 		</div>
