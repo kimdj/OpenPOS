@@ -27,10 +27,13 @@ AngularJS is an open source, JavaScript framework with the core goal of simplifi
 
 Node.js is an open source, JavaScript runtime environment for executing server-side JavaScript code.  The platform is built on Google Chrome's V8 JavaScript engine.  It is highly scalable and developer friendly nature.  In a nutshell, Node.js takes care of the backend platform / web framework.
 
+### Gulp.js
 
 Gulp is a command line task runner utilizing the Node.js platform.  It runs custom defined repetitious tasks and manages process automation.  
 
-BrowserSync is an automation tool that synchronizes file changes and interactions across many devices.  This allows for faster development and better application testing procedures.  
+### Browsersync
+
+Browsersync is an automation tool that synchronizes file changes and interactions across many devices.  This allows for faster development and better application testing procedures.  
 
 ## Prerequisites
 ### Node.js & NPM Installation
@@ -58,6 +61,11 @@ $ cd ~/OpenPOS
 Install dependencies
 ```
 $ npm install
+```
+
+Start MongoDB
+```
+$ mongod --dbpath /data/db
 ```
 
 Start the server
