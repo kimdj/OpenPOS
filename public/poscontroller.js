@@ -14,6 +14,18 @@ app.controller('PosController', function ($scope, $http) {
 	$scope.foods = [];
 	$scope.other = [];
 
+	$scope.categories = [
+		{
+			'category': 'Foods'
+		},
+		{
+			'category': 'Drinks'
+		},
+		{
+			'category': 'Other'
+		}
+    ]
+	$scope.selectedCategory = '';
 	$scope.order = [];
 	$scope.new = {};
 	$scope.totOrders = 0;
@@ -152,12 +164,24 @@ function AppCtrl($scope, $http) {
 	refresh();
 
 	$scope.addProduct = function () {
-		$scope.product.user = $scope.uname;
-		console.log($scope.product);
-		$http.post('/productlist', $scope.product).success(function (response) {
-			//			console.log("addProduct: " + $scope.product);
-			refresh(); // refresh the Menu Panel
-		});
+		var nameStr = $scope.product.name;
+		var priceStr = $scope.product.price;
+		var priceRegex = /^((\d{0,3}(,\d{3})+)|\d+)(\.\d{2})?$/; // valid currency values only
+
+		if (nameStr.length > 36) {
+			alert("Item name can be a maximum of 36 characters long.");
+		} else if (!priceRegex.test(priceStr)) {
+			alert("Please enter a valid price.");
+		} else {
+			//			alert("Adding item: " + nameStr);
+			$scope.product.category = $scope.selectedCategory;
+			$scope.product.user = $scope.uname;
+			console.log($scope.product);
+			$http.post('/productlist', $scope.product).success(function (response) {
+				//			console.log("addProduct: " + $scope.product);
+				refresh(); // refresh the Menu Panel
+			});
+		}
 	};
 
 	$scope.remove = function (id) {

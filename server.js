@@ -86,6 +86,7 @@ app.use(function (req, res, next) {
 
 //  product list  --------------------------------------------------------------------------------
 
+// username variable
 var uname = "";
 
 function isEmpty(str) {
@@ -93,14 +94,21 @@ function isEmpty(str) {
 }
 
 app.get('/productlist', function (req, res) {
-
+	if (typeof req["user"].username === 'undefined') {
+		uname = req["user"].user;	
+	}
+	
 	if (isEmpty(uname)) {
 		uname = req["user"].username;
+	} else if (!isEmpty(req['user'].username) && (uname !== req['user'].username)) {
+		uname = req['user'].username;
 	}
+
 	//	console.log('typeof req["user"]: ', typeof req["user"]);
 	//	console.log('typeof req["user"].username: ', typeof req["user"].username);
 	//		console.log('req["user"]: ', req["user"]);
-	//	console.log('req["user"].username: ', req["user"].username);
+	//		console.log('req["user"].username: ', req["user"].username);
+	//	console.log('req["user"].username: ', uname);
 	//	console.log('req["user"].email: ', req["user"].email);
 	//	console.log('req["user"].password: ', req["user"].password);
 	//	var uname = req["user"].username;
@@ -113,7 +121,8 @@ app.get('/productlist', function (req, res) {
 });
 
 app.post('/productlist', function (req, res) {
-	console.log("Adding item: ", req.body);
+	//	console.log("Adding item: ", req.body);
+	//	console.log(req);
 
 	// insert the input data into the db
 	// and send the new data from the db back to the controller

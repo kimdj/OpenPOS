@@ -1396,8 +1396,7 @@ html {
 }
 
 body {
-	/*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 24px;*/
+	/*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 	font-size: 24px;
 	line-height: 1.42857143;
@@ -5057,7 +5056,10 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
 
 @media (min-width: 768px) {
 	.navbar-header {
-		float: left;
+		/*		float: left;*/
+		display: inline-block;
+		float: none;
+		vertical-align: top;
 	}
 }
 
@@ -5117,6 +5119,10 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
 .container-fluid>.navbar-collapse {
 	margin-right: -15px;
 	margin-left: -15px;
+	float: none;
+	margin: 0 auto;
+	display: block;
+	text-align: center;
 }
 
 @media (min-width: 768px) {
@@ -5126,6 +5132,10 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
 	.container-fluid>.navbar-collapse {
 		margin-right: 0;
 		margin-left: 0;
+		float: none;
+		margin: 0 auto;
+		display: block;
+		text-align: center;
 	}
 }
 
@@ -5167,11 +5177,12 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
 }
 
 .navbar-brand {
-	float: left;
+	float: none;
 	height: 50px;
 	padding: 15px 35px;
 	font-size: 28px;
 	line-height: 20px;
+	text-align: center;
 }
 
 .navbar-brand:hover,
@@ -6611,6 +6622,7 @@ button.list-group-item-danger.active:focus {
 
 .panel-footer p {
 	padding: 7px 10px 0px 6px;
+	color: black;
 }
 
 .panel>.list-group,
@@ -7910,7 +7922,6 @@ button.close {
 	td.visible-sm {
 		display: table-cell !important;
 	}
-	
 	/* TESTING */
 	#item-qty,
 	#item-name {
@@ -7928,7 +7939,6 @@ button.close {
 	.visible-sm-block {
 		display: block !important;
 	}
-	
 	/* TESTING */
 	#item-qty,
 	#item-name {
@@ -7946,7 +7956,6 @@ button.close {
 	.visible-sm-inline {
 		display: inline !important;
 	}
-	
 	/* TESTING */
 	#item-qty,
 	#item-name {
@@ -7964,7 +7973,6 @@ button.close {
 	.visible-sm-inline-block {
 		display: inline-block !important;
 	}
-	
 	/* TESTING */
 	#item-qty,
 	#item-name {
@@ -8056,7 +8064,6 @@ button.close {
 	.hidden-sm {
 		display: none !important;
 	}
-	
 	/* TESTING */
 	#item-qty,
 	#item-name {
@@ -8136,6 +8143,10 @@ button.close {
 	.hidden-print {
 		display: none !important;
 	}
+}
+
+.navbar-header div.navbar-brand {
+	color: white;
 }
 
 # sourceMappingURL=bootstrap.css.map

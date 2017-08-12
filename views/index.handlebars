@@ -1,15 +1,12 @@
-<div class="col-md-12">
-	<div class="row">
-		<nav class="navbar navbar-default" role="navigation">
-			<div class="container-fluid">
-				<div class="container-fluid">
-					<!-- Brand and toggle get grouped for better mobile display -->
-					<div class="navbar-header" ng-controller="TimeCtrl">
-						<a class="navbar-brand">Welcome, {{username}}. Today's Date is: [[clock  | date:'medium']]</a>
-					</div>
+<div class="container">
+	<div class="header clearfix">
+		<nav>
+			<center>
+				<div class="navbar-header" ng-controller="TimeCtrl">
+					<div class="navbar-brand">Welcome, {{username}}.</div>
+					<div class="navbar-brand">Today's Date is: [[clock | date:'medium']]</div>
 				</div>
-			</div>
-			<!-- /.container-fluid -->
+			</center>
 		</nav>
 	</div>
 </div>
@@ -46,25 +43,17 @@
 							<table class="table" style="table-layout:fixed">
 								<thead>
 									<tr>
-										<th>Name</th>
-										<th>Price</th>
-										<th>Category</th>
-										<th>Action</th>
+										<th style="text-align: center">Name</th>
+										<th style="text-align: center">Price</th>
+										<th style="text-align: center">Category</th>
+										<th style="text-align: center">Action</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td><input class="form-control" ng-model="product.name"></td>
-										<td><input class="form-control" ng-model="product.price"></td>
-										<td><input id="foo" class="form-control" ng-model="product.category"></td>
-										<!--
-										<td><select class="form-control" data-ng-model="product.category" required>
-                                            <option>Foods</option>
-											<option>Drinks</option>
-                                            <option>Other</option>
-                                        </select></td>
--->
-
+										<td><input class="form-control" ng-model="product.name" ng-keyup="$event.keyCode == 13 ? addProduct() : null"></td>
+										<td><input class="form-control" ng-model="product.price" ng-keyup="$event.keyCode == 13 ? addProduct() : null"></td>
+										<td><select class="form-control" ng-model="selectedCategory" ng-options="category.category as category.category for category in categories" ng-init="selectedCategory = 'Foods'"></select></td>
 										<td><button id="bar" class="btn btn-primary" ng-click="addProduct()">Add Item</button></td>
 									</tr>
 									<tr ng-repeat="product in productlist">
