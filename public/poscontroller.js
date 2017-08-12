@@ -83,6 +83,17 @@ app.controller('PosController', function ($scope, $http) {
 		$scope.order = [];
 	};
 
+	$scope.getDate = function () {
+		var today = new Date();
+		var mm = today.getMonth() + 1;
+		var dd = today.getDate();
+		var yyyy = today.getFullYear();
+
+		var date = dd + "/" + mm + "/" + yyyy
+
+		return date
+	};
+
 	$scope.checkout = function (index) {
 		alert($scope.getDate() + " - Order Number: " + ($scope.totOrders + 1) + "\n\nOrder amount: $" + $scope.getTotal().toFixed(2) + "\n\nPayment received. Thanks.");
 		$scope.order = [];
