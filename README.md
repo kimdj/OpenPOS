@@ -14,26 +14,38 @@ OpenPOS is an open source, cloud-based Point-Of-Sale System. OpenPOS uses the ME
 ### MongoDB
 
 MongoDB is an open source, cross-platform document-oriented NoSQL database program.  It uses JSON-like documents with dynamic schemas (BSON) to persist data.  MongoDB is built for scalability, high availability and performance from a single server deployment to large complex multi-site infrastructures.  
+  
+https://www.mongodb.com/
 
 ### Express.js
 
 Express.js is an open source, JavaScript development framework that supplements the backend.  It essentially provides URL routing among other various functionalities.  In a nutshell, Express.js supplements the backend web framework.  
+  
+http://expressjs.com/
 
 ### AngularJS
 
 AngularJS is an open source, JavaScript framework with the core goal of simplification.  It excels at building dynamic, single page applications (SPAs) while supporting the Model View Controller (MVC) programming paradigm.  In a nutshell, AngularJS takes care of the frontend framework.  
+  
+https://angularjs.org/
 
 ### Node.js
 
 Node.js is an open source, JavaScript runtime environment for executing server-side JavaScript code.  The platform is built on Google Chrome's V8 JavaScript engine.  It is highly scalable and developer friendly nature.  In a nutshell, Node.js takes care of the backend platform / web framework.
+  
+https://nodejs.org/
 
 ### Gulp.js
 
 Gulp is a command line task runner utilizing the Node.js platform.  It runs custom defined repetitious tasks and manages process automation.  
+  
+https://gulpjs.com/
 
 ### Browsersync
 
 Browsersync is an automation tool that synchronizes file changes and interactions across many devices.  This allows for faster development and better application testing procedures.  
+  
+https://www.browsersync.io/
 
 ## Prerequisites
 ### Node.js & NPM Installation
@@ -45,6 +57,10 @@ $ brew install node
 $ node -v
 $ npm -v
 ```
+
+### MongoDB Atlas Setup
+
+Create a free account @ https://www.mongodb.com/cloud/atlas
 
 ## Quick Start
 
@@ -63,9 +79,18 @@ Install dependencies
 $ npm install
 ```
 
-Start MongoDB
+If you're using a local MongoDB instance, start the service:
 ```
 $ mongod --dbpath /data/db
+```
+
+Or, if you're using MongoDB Atlas, connect to the database:
+```
+$ mongo "mongodb://openposcluster-shard-00-00-zb2uf.mongodb.net:27017, \
+				   openposcluster-shard-00-01-zb2uf.mongodb.net:27017, \
+				   openposcluster-shard-00-02-zb2uf.mongodb.net:27017/test \
+				   ?replicaSet=OpenPOSCluster-shard-0" --authenticationDatabase admin \
+				   --ssl --username <USERNAME> --password <PASSWORD>
 ```
 
 Start the server

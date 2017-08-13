@@ -22,11 +22,13 @@ var app = express();
 // connect to the database
 //mongoose.connect('mongodb://localhost/loginapp');
 var uri = "mongodb://djk3:Da72vid87!@openposcluster-shard-00-00-zb2uf.mongodb.net:27017,openposcluster-shard-00-01-zb2uf.mongodb.net:27017,openposcluster-shard-00-02-zb2uf.mongodb.net:27017/OpenPOS?ssl=true&replicaSet=OpenPOSCluster-shard-0&authSource=admin";
-mongoose.connect(uri);
+mongoose.connect(uri, {
+	useMongoClient: true
+});
 var db1 = mongoose.connection;
 db1.on('error', console.error.bind(console, 'connection error:'));
 db1.once('open', function () {
-	console.log("Connected to MongoDB");
+	console.log("Connected to MongoDB Atlas");
 });
 
 // mongoose testing
@@ -143,11 +145,11 @@ app.get('/productlist', function (req, res) {
 	}
 
 	// find all products (documents) belonging to the user
-	console.log("uname: ", uname);
+	console.log(uname, "just logged into OpenPOS");
 	Products.find({
 		user: uname
 	}, function (err, docs) {
-		console.log("Find all docs with uname: ", docs);
+		console.log("Finding all docs for", uname + ":\n", docs);
 		res.json(docs);
 	});
 });

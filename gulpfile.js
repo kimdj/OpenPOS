@@ -6,7 +6,7 @@ var nodemon = require('gulp-nodemon');
 
 
 
-var bs1 = browserSync.create("proxy1");
+
 
 //var exec = require('child_process').exec;
 //
@@ -32,13 +32,17 @@ gulp.task('nodemon', function (cb) {
 	});
 });
 
+var bs1 = browserSync.create("proxy1");
+
 gulp.task('browser-sync', ['nodemon'], function () {
+	//gulp.task('browser-sync', function () {
 	bs1.init({
 		proxy: "http://localhost:3000",
 		port: 3010,
 		ui: {
 			port: 3011
-		}
+		},
+		browser: ["google chrome", "safari"]
 	});
 
 	//	browserSync.init(null, {
