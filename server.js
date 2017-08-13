@@ -9,22 +9,57 @@ var express = require('express'),
 	session = require('express-session'),
 	passport = require('passport'),
 	LocalStrategy = require('passport-local').Strategy,
+	routes = require('./routes/index'),
+	users = require('./routes/users'),
 	mongo = require('mongodb'),
 	mongoose = require('mongoose'),
-	mongojs = require('mongojs'),
-	db = mongoose.connection,
-	db1 = mongojs('contactlist', ['contactlist']),
-	db2 = mongojs('productlist', ['productlist']),
-	routes = require('./routes/index'),
-	users = require('./routes/users');
-
+	db = mongoose.connection;
 
 
 // init express
 var app = express();
 
 // connect to the database
-mongoose.connect('mongodb://localhost/loginapp');
+//mongoose.connect('mongodb://localhost/loginapp');
+var uri = "mongodb://djk3:Da72vid87!@openposcluster-shard-00-00-zb2uf.mongodb.net:27017,openposcluster-shard-00-01-zb2uf.mongodb.net:27017,openposcluster-shard-00-02-zb2uf.mongodb.net:27017/OpenPOS?ssl=true&replicaSet=OpenPOSCluster-shard-0&authSource=admin";
+mongoose.connect(uri);
+var db1 = mongoose.connection;
+db1.on('error', console.error.bind(console, 'connection error:'));
+db1.once('open', function () {
+	console.log("Connected to MongoDB");
+});
+
+// mongoose testing
+
+var productSchema = mongoose.Schema({
+	name: String,
+	price: String,
+	category: String,
+	user: String
+});
+
+var Products = mongoose.model('products', productSchema, 'products');
+
+var p1 = new Products({
+	name: 'Coke',
+	price: '1.00',
+	category: 'Drinks',
+	user: 'David'
+});
+//console.log(p1.name); // 'Coke'
+
+
+
+//Products.find(function (err, products) {
+//	if (err) return console.error(err);
+//	console.log(products);
+//})
+
+
+
+// mongoose testing
+
+
 
 // view engine
 app.set('views', path.join(__dirname, 'views'));
@@ -93,49 +128,58 @@ function isEmpty(str) {
 	return (!str || 0 === str.length);
 }
 
+// find products from db
 app.get('/productlist', function (req, res) {
+
+	// make sure uname is set to the login username
 	if (typeof req["user"].username === 'undefined') {
-		uname = req["user"].user;	
+		uname = req["user"].user;
 	}
-	
+
 	if (isEmpty(uname)) {
 		uname = req["user"].username;
 	} else if (!isEmpty(req['user'].username) && (uname !== req['user'].username)) {
 		uname = req['user'].username;
 	}
 
-	//	console.log('typeof req["user"]: ', typeof req["user"]);
-	//	console.log('typeof req["user"].username: ', typeof req["user"].username);
-	//		console.log('req["user"]: ', req["user"]);
-	//		console.log('req["user"].username: ', req["user"].username);
-	//	console.log('req["user"].username: ', uname);
-	//	console.log('req["user"].email: ', req["user"].email);
-	//	console.log('req["user"].password: ', req["user"].password);
-	//	var uname = req["user"].username;
-
-	db2.productlist.find({
+	// find all products (documents) belonging to the user
+	console.log("uname: ", uname);
+	Products.find({
 		user: uname
 	}, function (err, docs) {
+		console.log("Find all docs with uname: ", docs);
 		res.json(docs);
 	});
 });
 
+// add product from db
 app.post('/productlist', function (req, res) {
-	//	console.log("Adding item: ", req.body);
-	//	console.log(req);
+	console.log("Item requested to be added to the db: ", req.body);
 
-	// insert the input data into the db
-	// and send the new data from the db back to the controller
-	db2.productlist.insert(req.body, function (err, doc) {
-		res.json(doc);
+	// create a new product using the data sent from the client
+	var p = new Products(req.body);
+
+	// save the new product to the db
+	p.save(function (err, doc) {
+		if (err) {
+			return console.error(err)
+		} else {
+			console.log("Saving p to db: ", doc);
+			res.json(doc);
+		}
 	});
 });
 
+// delete product from db
 app.delete('/productlist/:id', function (req, res) {
+
+	// get the product id
 	var id = req.params.id;
 	console.log("Removing item - id: " + id);
-	db2.productlist.remove({
-		_id: mongojs.ObjectId(id)
+
+	// remove the product from the db
+	Products.remove({
+		_id: id
 	}, function (err, doc) {
 		res.json(doc);
 	});
