@@ -58,6 +58,30 @@ $ node -v
 $ npm -v
 ```
 
+To install on Ubuntu:
+```
+$ sudo apt-get install python-software-properties
+$ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+$ sudo apt-get install nodejs
+$ node -v
+$ npm -v
+```
+
+### MongoDB
+
+To install on Mac:
+```
+
+```
+
+To install on Ubuntu:
+```
+$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+$ echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
+$ sudo apt-get update
+$ sudo apt-get install -y mongodb
+```
+
 ### MongoDB Atlas Setup
 
 Create a free account @ https://www.mongodb.com/cloud/atlas
@@ -86,11 +110,7 @@ $ mongod --dbpath /data/db
 
 Or, if you're using MongoDB Atlas, connect to the database:
 ```
-$ mongo "mongodb://openposcluster-shard-00-00-zb2uf.mongodb.net:27017, \
-				   openposcluster-shard-00-01-zb2uf.mongodb.net:27017, \
-				   openposcluster-shard-00-02-zb2uf.mongodb.net:27017/test \
-				   ?replicaSet=OpenPOSCluster-shard-0" --authenticationDatabase admin \
-				   --ssl --username <USERNAME> --password <PASSWORD>
+$ mongo "mongodb://openposcluster-shard-00-00-zb2uf.mongodb.net:27017, openposcluster-shard-00-01-zb2uf.mongodb.net:27017, openposcluster-shard-00-02-zb2uf.mongodb.net:27017/test ?replicaSet=OpenPOSCluster-shard-0" --authenticationDatabase admin --ssl --username <USERNAME> --password <PASSWORD>
 ```
 
 Start the server
