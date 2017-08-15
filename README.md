@@ -60,6 +60,7 @@ $ npm -v
 
 To install on Ubuntu:
 ```
+$ sudo apt-get update
 $ sudo apt-get install python-software-properties
 $ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 $ sudo apt-get install nodejs
@@ -71,7 +72,8 @@ $ npm -v
 
 To install on Mac:
 ```
-
+$ brew update
+$ brew install mongodb
 ```
 
 To install on Ubuntu:
@@ -110,12 +112,17 @@ $ mongod --dbpath /data/db
 
 Or, if you're using MongoDB Atlas, connect to the database:
 ```
-$ mongo "mongodb://openposcluster-shard-00-00-zb2uf.mongodb.net:27017, openposcluster-shard-00-01-zb2uf.mongodb.net:27017, openposcluster-shard-00-02-zb2uf.mongodb.net:27017/test ?replicaSet=OpenPOSCluster-shard-0" --authenticationDatabase admin --ssl --username <USERNAME> --password <PASSWORD>
+$ mongo "mongodb://openposcluster-shard-00-00-zb2uf.mongodb.net:27017, openposcluster-shard-00-01-zb2uf.mongodb.net:27017, openposcluster-shard-00-02-zb2uf.mongodb.net:27017/test?replicaSet=OpenPOSCluster-shard-0" --authenticationDatabase admin --ssl --username <USERNAME> --password <PASSWORD>
 ```
 
 Start the server
 ```
 $ gulp
+```
+
+Or, start the web app
+```
+$ node server.js
 ```
 
 
