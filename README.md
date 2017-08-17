@@ -11,83 +11,59 @@ Basic framework for the POS and backend setup is complete.  Routed user authenti
 ## Description
 OpenPOS is an open source, cloud-based Point-Of-Sale System. OpenPOS uses the MEAN stack, a full-stack JavaScript framework:  
 
-### MongoDB
-
-MongoDB is an open source, cross-platform document-oriented NoSQL database program.  It uses JSON-like documents with dynamic schemas (BSON) to persist data.  MongoDB is built for scalability, high availability and performance from a single server deployment to large complex multi-site infrastructures.  
-  
-https://www.mongodb.com/
-
-### Express.js
-
-Express.js is an open source, JavaScript development framework that supplements the backend.  It essentially provides URL routing among other various functionalities.  In a nutshell, Express.js supplements the backend web framework.  
-  
-http://expressjs.com/
-
-### AngularJS
-
-AngularJS is an open source, JavaScript framework with the core goal of simplification.  It excels at building dynamic, single page applications (SPAs) while supporting the Model View Controller (MVC) programming paradigm.  In a nutshell, AngularJS takes care of the frontend framework.  
-  
-https://angularjs.org/
-
-### Node.js
+### [Node.js](https://nodejs.org/)
 
 Node.js is an open source, JavaScript runtime environment for executing server-side JavaScript code.  The platform is built on Google Chrome's V8 JavaScript engine.  It is highly scalable and developer friendly nature.  In a nutshell, Node.js takes care of the backend platform / web framework.  
-  
-https://nodejs.org/
 
-### Mongoose
+### [Express.js](http://expressjs.com/)
+
+Express.js is an open source, JavaScript development framework that provides a robust set of web and mobile application features for Node.js.  It provides URL routing among other various functionalities.  In a nutshell, Express.js supplements the backend web framework.  
+
+### [AngularJS](https://angularjs.org/)
+
+AngularJS is an open source, JavaScript framework with the core goal of simplification.  It excels at building dynamic, single page applications (SPAs) while supporting the Model View Controller (MVC) programming paradigm.  In a nutshell, AngularJS takes care of the frontend framework.  
+
+### [MongoDB](https://www.mongodb.com/)
+
+MongoDB is an open source, cross-platform document-oriented NoSQL database program.  It uses JSON-like documents with dynamic schemas (BSON) to persist data.  MongoDB is built for scalability, high availability and performance from a single server deployment to large complex multi-site infrastructures.  
+
+### [Mongoose](http://mongoosejs.com)
 
 Mongoose provides a straight-forward, schema-based solution to model your application data. It includes built-in type casting, validation, query building, business logic hooks and more, out of the box.  
-  
-http://mongoosejs.com
 
-### Passport
+### [Passport](http://passportjs.org)
 
 Passport is authentication middleware for Node.js. Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application. A comprehensive set of strategies support authentication using a username and password, Facebook, Twitter, and more.  
-  
-http://passportjs.org
 
-### Gulp.js
+### [Gulp.js](https://gulpjs.com/)
 
 Gulp is a command line task runner utilizing the Node.js platform.  It runs custom defined repetitious tasks and manages process automation.  
-  
-https://gulpjs.com/
 
-### Browsersync
+### [Browsersync](https://www.browsersync.io/)
 
 Browsersync is an automation tool that synchronizes file changes and interactions across many devices.  This allows for faster development and better application testing procedures.  
-  
-https://www.browsersync.io/
 
-### Handlebars.js
+### [Handlebars.js](https://www.npmjs.com/package/handlebars)
 
 Handlebars.js is an extension to the Mustache templating language created by Chris Wanstrath. Handlebars.js and Mustache are both logicless templating languages that keep the view and the code separated like we all know they should be.  
-  
-https://www.npmjs.com/package/handlebars
 
 ## Prerequisites
 ### Node.js & NPM Installation
 
-Debian and Ubuntu based Linux distributions
+[Debian and Ubuntu based Linux distributions](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions)
 
-https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
+[macOS](https://nodejs.org/en/download/package-manager/#macos)
 
-macOS
-
-https://nodejs.org/en/download/package-manager/#macos
-
-Windows
-
-https://nodejs.org/en/download/package-manager/#windows
+[Windows](https://nodejs.org/en/download/package-manager/#windows)
 
 
-### MongoDB
+### MongoDB Installation
 
 https://docs.mongodb.com/manual/installation/
 
-### MongoDB Atlas Setup
+### MongoDB Atlas Setup (Optional)
 
-Create a free account @ https://www.mongodb.com/cloud/atlas
+[Create a free account](https://www.mongodb.com/cloud/atlas)
 
 ## Quick Start
 
@@ -98,7 +74,7 @@ $ git clone https://github.com/kimdj/OpenPOS.git
 
 Change directory to the repo
 ```
-$ cd ~/OpenPOS
+$ cd ./OpenPOS
 ```
 
 Install dependencies
@@ -133,6 +109,3 @@ If you'd like to contribute to this project, please refer to https://github.com/
 ## License
 
 [The MIT License](LICENSE.md)
-
-
-
