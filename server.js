@@ -19,8 +19,10 @@ var express = require('express'),
 // init express
 var app = express();
 
-// connect to the database
+// connect to a local database
 //mongoose.connect('mongodb://localhost/loginapp');
+
+// or, connect to MongoDB's Atlas (a cloud-hosted MongoDB service)
 var uri = "mongodb://djk3:Da72vid87!@openposcluster-shard-00-00-zb2uf.mongodb.net:27017,openposcluster-shard-00-01-zb2uf.mongodb.net:27017,openposcluster-shard-00-02-zb2uf.mongodb.net:27017/OpenPOS?ssl=true&replicaSet=OpenPOSCluster-shard-0&authSource=admin";
 mongoose.connect(uri, {
 	useMongoClient: true
@@ -31,8 +33,7 @@ db1.once('open', function () {
 	console.log("Connected to MongoDB Atlas");
 });
 
-// mongoose testing
-
+// define a mongoose schema
 var productSchema = mongoose.Schema({
 	name: String,
 	price: String,
@@ -40,30 +41,10 @@ var productSchema = mongoose.Schema({
 	user: String
 });
 
+// define a mongoose model
 var Products = mongoose.model('products', productSchema, 'products');
 
-var p1 = new Products({
-	name: 'Coke',
-	price: '1.00',
-	category: 'Drinks',
-	user: 'David'
-});
-//console.log(p1.name); // 'Coke'
-
-
-
-//Products.find(function (err, products) {
-//	if (err) return console.error(err);
-//	console.log(products);
-//})
-
-
-
-// mongoose testing
-
-
-
-// view engine
+// setup view engine
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs({
 	defaultLayout: 'layout'
@@ -119,9 +100,7 @@ app.use(function (req, res, next) {
 	next();
 });
 
-
-
-//  product list  --------------------------------------------------------------------------------
+//  Express routing for product CRUD operations --------------------------------------------------------------------------------
 
 // username variable
 var uname = "";
@@ -187,9 +166,7 @@ app.delete('/productlist/:id', function (req, res) {
 	});
 });
 
-//  product list  --------------------------------------------------------------------------------
-
-
+//  Express routing for product CRUD operations  --------------------------------------------------------------------------------
 
 // setup static routes
 app.use(express.static(__dirname + '/public'));

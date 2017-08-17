@@ -47,42 +47,31 @@ Browsersync is an automation tool that synchronizes file changes and interaction
   
 https://www.browsersync.io/
 
+### Handlebars.js
+
+Handlebars.js is an extension to the Mustache templating language created by Chris Wanstrath. Handlebars.js and Mustache are both logicless templating languages that keep the view and the code separated like we all know they should be.  
+  
+https://www.npmjs.com/package/handlebars
+
 ## Prerequisites
 ### Node.js & NPM Installation
 
-To install on Mac:
-```
-$ brew update
-$ brew install node
-$ node -v
-$ npm -v
-```
+Debian and Ubuntu based Linux distributions
 
-To install on Ubuntu:
-```
-$ sudo apt-get update
-$ sudo apt-get install python-software-properties
-$ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-$ sudo apt-get install nodejs
-$ node -v
-$ npm -v
-```
+https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
+
+macOS
+
+https://nodejs.org/en/download/package-manager/#macos
+
+Windows
+
+https://nodejs.org/en/download/package-manager/#windows
+
 
 ### MongoDB
 
-To install on Mac:
-```
-$ brew update
-$ brew install mongodb
-```
-
-To install on Ubuntu:
-```
-$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
-$ echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
-$ sudo apt-get update
-$ sudo apt-get install -y mongodb
-```
+https://docs.mongodb.com/manual/installation/
 
 ### MongoDB Atlas Setup
 
@@ -112,7 +101,7 @@ $ mongod --dbpath /data/db
 
 Or, if you're using MongoDB Atlas, connect to the database:
 ```
-$ mongo "mongodb://openposcluster-shard-00-00-zb2uf.mongodb.net:27017, openposcluster-shard-00-01-zb2uf.mongodb.net:27017, openposcluster-shard-00-02-zb2uf.mongodb.net:27017/test?replicaSet=OpenPOSCluster-shard-0" --authenticationDatabase admin --ssl --username <USERNAME> --password <PASSWORD>
+$ mongo "mongodb://openposcluster-shard-00-00-zb2uf.mongodb.net:27017, openposcluster-shard-00-01-zb2uf.mongodb.net:27017, openposcluster-shard-00-02-zb2uf.mongodb.net:27017/test?replicaSet=OpenPOSCluster-shard-0" --authenticationDatabase admin --ssl --username <USERNAME> --password
 ```
 
 Start the server
@@ -125,6 +114,9 @@ Or, start the web app
 $ node server.js
 ```
 
+## Contribute
+
+If you'd like to contribute to this project, please refer to https://github.com/kimdj/OpenPOS/issues/.
 
 ## License
 
