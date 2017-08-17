@@ -40,7 +40,8 @@ gulp.task('browser-sync', ['nodemon'], function () {
 		ui: {
 			port: 3011
 		},
-		browser: ["google chrome", "safari"]
+		browser: ["google chrome", "safari"],
+		open: false
 	});
 
 	//	browserSync.init(null, {
