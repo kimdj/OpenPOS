@@ -5,19 +5,33 @@ var reload = browserSync.reload;
 var nodemon = require('gulp-nodemon');
 
 
+/*
+// start a local mongodb instance, then start the server
+var exec = require('child_process').exec;
 
-//var exec = require('child_process').exec;
-//
-//gulp.task('mongod', function (cb) {
-//	exec('mongod --dbpath /data/db', function (err, stdout, stderr) {
-//		console.log('Starting mongod');
-//		console.log(stdout);
-//		console.log(stderr);
-//		cb(err);
-//	});
-//})
+gulp.task('mongod', function (cb) {
+	exec('mongod --dbpath /data/db', function (err, stdout, stderr) {
+		console.log('Starting mongod');
+		console.log(stdout);
+		console.log(stderr);
+		cb(err);
+	});
+})
 
-//gulp.task('nodemon', ['mongod'], function (cb) {
+gulp.task('nodemon', ['mongod'], function (cb) {
+	var callbackCalled = false;
+	return nodemon({
+		script: './server.js'
+	}).on('start', function () {
+		if (!callbackCalled) {
+			callbackCalled = true;
+			cb();
+		}
+	});
+});
+*/
+
+// start the server
 gulp.task('nodemon', function (cb) {
 	var callbackCalled = false;
 	return nodemon({
@@ -30,8 +44,8 @@ gulp.task('nodemon', function (cb) {
 	});
 });
 
+// start browsersync
 var bs1 = browserSync.create("proxy1");
-
 gulp.task('browser-sync', ['nodemon'], function () {
 	//gulp.task('browser-sync', function () {
 	bs1.init({
@@ -49,6 +63,7 @@ gulp.task('browser-sync', ['nodemon'], function () {
 	//	});
 });
 
+// default task
 gulp.task('default', ['browser-sync'], function () {
 	gulp.watch(["./views/*.handlebars"], reload);
 });

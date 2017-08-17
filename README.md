@@ -13,7 +13,7 @@ OpenPOS is an open source, cloud-based Point-Of-Sale System. OpenPOS uses the ME
 
 ### [Node.js](https://nodejs.org/)
 
-Node.js is an open source, JavaScript runtime environment for executing server-side JavaScript code.  The platform is built on Google Chrome's V8 JavaScript engine.  It is highly scalable and developer friendly nature.  In a nutshell, Node.js takes care of the backend platform / web framework.  
+Node.js is an open source, JavaScript runtime environment for executing server-side JavaScript code.  The platform is built on Google Chrome's V8 JavaScript engine.  It is highly scalable and developer friendly nature.  In a nutshell, Node.js is the core backend platform / web framework.  
 
 ### [Express.js](http://expressjs.com/)
 
@@ -105,6 +105,16 @@ $ node server.js
 ## Contribute
 
 If you'd like to contribute to this project, please refer to https://github.com/kimdj/OpenPOS/issues/.
+
+## Credits
+
+[AngularJS POS Demo](http://embed.plnkr.co/I6XAHz/)  
+[loginapp](https://github.com/bradtraversy/loginapp)
+
+## Contact
+
+E-mail: kim.david.j@gmail.com
+
 
 ## License
 
