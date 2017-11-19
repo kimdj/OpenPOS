@@ -1,0 +1,132 @@
+<div class="container">
+	<div class="header clearfix">
+		<nav>
+			<center>
+				<div class="navbar-header" ng-controller="TimeCtrl">
+					<div class="navbar-brand">Welcome, {{username}}</div>
+					<div class="navbar-brand">[[clock | date:'medium']]</div>
+				</div>
+			</center>
+		</nav>
+	</div>
+</div>
+
+<!-- set the Angular variable, 'uname', to the username passed in from res.render -->
+<!-- $scope.uname is accessible within poscontroller.js -->
+<div style="display: none" ng-init="uname='{{username}}'"></div>
+
+<div class="col-md-12">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<ul id="myTab" class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active"><a href="#food" role="tab" data-toggle="tab">Foods</a></li>
+						<li role="presentation"><a href="#drink" role="tab" data-toggle="tab">Drinks</a></li>
+						<li role="presentation"><a href="#other" role="tab" data-toggle="tab">Other</a></li>
+						<li role="presentation"><a href="#new" role="tab" data-toggle="tab">Edit Items</a></li>
+					</ul>
+					<div class="tab-content">
+						<br />
+						<div role="tabpanel" class="tab-pane active" id="food">
+							<button class="btn btn-info btn-pos btn-marginTop" data-ng-repeat="item in foods" data-ng-bind="item.name" data-ng-click="addToOrder(item,1)"></button>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="drink">
+							<button class="btn btn-primary btn-pos btn-marginTop" data-ng-repeat="item in drinks" data-ng-bind="item.name" data-ng-click="addToOrder(item,1)"></button>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="other">
+							<button class="btn btn-warning btn-pos btn-marginTop" data-ng-repeat="item in other" data-ng-bind="item.name" data-ng-click="addToOrder(item,1)"></button>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="new" ng-controller="AppCtrl">
+							<h1>Add A New Item</h1>
+
+							<table class="table" style="table-layout:fixed">
+								<thead>
+									<tr>
+										<th style="text-align: center">Name</th>
+										<th style="text-align: center">Price</th>
+										<th style="text-align: center">Category</th>
+										<th style="text-align: center">Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><input class="form-control" ng-model="product.name" ng-keyup="$event.keyCode == 13 ? addProduct() : null"></td>
+										<td><input class="form-control" ng-model="product.price" ng-keyup="$event.keyCode == 13 ? addProduct() : null"></td>
+										<td><select class="form-control" ng-model="selectedCategory" ng-options="category.category as category.category for category in categories" ng-init="selectedCategory = 'Foods'"></select></td>
+										<td><button id="bar" class="btn btn-primary" ng-click="addProduct()">Add Item</button></td>
+									</tr>
+									<tr ng-repeat="product in productlist">
+										<td>[[product.name]]</td>
+										<td>[[product.price]]</td>
+										<td>[[product.category]]</td>
+										<td><button class="btn btn-danger" ng-click="remove(product._id)">Remove</button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<p>&copy; 2017 David Kim</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-md-4"><span class="panel-title">Order Summary</span></div>
+						<div class="col-md-3 col-md-push-5 text-right"><span>Total Orders: </span><span class="badge">[[totOrders]]</span></div>
+					</div>
+				</div>
+				<div class="panel-body" style="max-height:640px; overflow:scroll;">
+					<div class="text-warning" ng-hide="order.length" align="center">
+						Ready To Take Orders!
+					</div>
+					<ul class="list-group">
+						<li class="list-group-item" ng-repeat="item in order">
+							<div class="row">
+								<div class="col-md-1" id="item-qty">
+									<span class="badge badge-left" ng-bind="item.qty"></span>
+								</div>
+								<div class="col-md-4" id="item-name">
+									[[item.name]]
+								</div>
+								<div class="col-md-1" id="item-total-cost">
+									<div class="label label-success">[[item.price * item.qty | currency:"$":0]]</div>
+								</div>
+								<div class="col-md-1 col-md-push-1" id="item-cost">
+									<div class="label label-warning">[[item.price | currency:"$":0]]</div>
+								</div>
+								<div class="col-md-2 col-md-push-2" id="item-add-remove">
+									<button class="btn btn-success btn-xs" ng-click="addToOrder(item,1)">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </button>
+									<button class="btn btn-warning btn-xs" ng-click="removeOneEntity(item)">
+                                            <span class="glyphicon glyphicon-minus"></span>
+                                        </button>
+								</div>
+								<div class="col-md-1 col-md-push-2" id="item-delete">
+									<button class="btn btn-danger btn-xs" ng-click="removeItem(item)">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="panel-footer" ng-show="order.length">
+					<span class="label label-primary" style="margin-top: 10px; margin-bottom: 10px;">Total: [[getTotal() | currency:" $":0]]</span>
+				</div>
+				<div class="panel-footer" ng-show="order.length">
+					<div>
+						<span class="btn btn-danger btn-marginTop" ng-click="checkout()" ng-disabled="!order.length">Checkout</span>
+						<span class="btn btn-default btn-marginTop" style="float:right" ng-click="clearOrder()" ng-disabled="!order.length">Clear</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,54 @@
+.text-info {
+	border-left-style: solid;
+	border-left-width: 5px;
+	border-left-color: blue;
+	padding: 5px 5px 5px 10px;
+	font-size: 110%;
+}
+
+.box {
+	border-radius: 5px;
+	box-shadow: 1px 2px 10px silver;
+	padding: 10px;
+}
+
+.buttons {
+	padding: 20px;
+}
+
+.btn-marginTop {
+	margin-top: -1px;
+}
+
+.container {
+	margin: 0 auto;
+}
+
+.btn-pos {
+	padding: 20px 31px;
+	font-size: 20px;
+	border-radius: 10px;
+	margin-top: 1px;
+	margin-right: 1px;
+	margin-bottom: 1px;
+	margin-left: 1px;
+	width: 200px !important;
+	height: 110px !important;
+	text-align: center;
+}
+
+btn-summary {
+	margin-right: 5px;
+}
+
+btn-marginTop {
+	margin-top: 5px;
+}
+
+.badge-left {
+	float: none
+}
+
+.list-group-item>.badge {
+	float: none;
+}

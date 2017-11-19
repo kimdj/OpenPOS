@@ -1,0 +1,95 @@
+<!--
+ Copyright (c) 2017 David Kim
+ This program is licensed under the "MIT License".
+ Please see the file COPYING in the source
+ distribution of this software for license terms.
+-->
+
+<!DOCTYPE html>
+<html ng-app="OpenPOS" class="ng-cloak">
+
+<head>
+	<meta charset="utf-8">
+	<title>OpenPOS Demo</title>
+	<base href="/">
+
+	<!-- Bootstrap - Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css" />
+
+	<!-- jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+	<!-- AngularJS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular.min.js"></script>
+
+	<!-- Bootstrap -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+	<!-- Local Stylesheet -->
+	<link rel="stylesheet" href="/css/pos.css" />
+	<link rel="stylesheet" href="/css/bootstrap.css" />
+	<link rel="stylesheet" href="/css/style.css" />
+
+	<!-- AngularJS controller -->
+	<script src="poscontroller.js"></script>
+
+</head>
+
+<body data-ng-controller="PosController">
+	<div class="container">
+		<div class="header clearfix">
+			<nav>
+				<ul class="nav nav-pills">
+					<li role="presentation" text-align="left">
+						<a href="https://www.github.com/kimdj/OpenPOS" style="color:white; text-decoration:none">
+							OpenPOS
+						</a>
+					</li>
+					{{#if user}}
+					<li role="presentation" style="float:right"><a href="/users/logout" style="color:white; text-decoration:none">Logout</a></li>
+					{{else}}
+					<li role="presentation" style="float:right"><a href="/users/login" style="color:white; text-decoration:none">Login</a></li>
+					<li role="presentation" style="float:right"><a href="/users/register" style="color:white; text-decoration:none">Register</a></li>
+					{{/if}}
+				</ul>
+			</nav>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				{{#if success_msg}}
+				<div class="alert alert-success">{{success_msg}}</div>
+				{{/if}} {{#if error_msg}}
+				<div class="alert alert-danger">{{error_msg}}</div>
+				{{/if}} {{#if error}}
+				<div class="alert alert-danger">{{error}}</div>
+				{{/if}}
+			</div>
+		</div>
+	</div>
+	<!-- /container -->
+
+	<!-- template views injection -->
+	{{{body}}}
+	<!-- template views injection -->
+</body>
+
+</html>
+
+
+
+<script>
+	$(document).ready(function() {
+		$("#myTab a").click(function(e) {
+			e.preventDefault();
+			$(this).tab('show');
+		});
+
+		$('#foo').keypress(function(e) {
+			if (e.keyCode == 13)
+				$('#bar').click();
+		});
+	});
+
+</script>
