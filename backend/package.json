@@ -18,6 +18,7 @@
 		"passport-local": "^1.0.0"
 	},
 	"devDependencies": {
+		"mongodb-memory-server": "^11.3.0",
 		"nodemon": "^3.1.4"
 	},
 	"scripts": {
