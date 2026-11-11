@@ -1,0 +1,196 @@
+
+.store-shell {
+  min-height: 100vh;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.store-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.store-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.store-brand h1 {
+  font-family: var(--font-display);
+  font-size: 22px;
+}
+
+.store-brand p {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.store-promo {
+  background: var(--emerald-glow);
+  border: 1px solid var(--emerald-600);
+  color: var(--text);
+  border-radius: 100px;
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.store-promo strong {
+  color: var(--emerald-400);
+}
+
+.store-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  align-items: start;
+}
+
+.store-toolbar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.store-search {
+  flex: 1;
+  min-width: 200px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  color: var(--text);
+}
+
+.store-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.store-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.store-card h3 {
+  font-size: 15px;
+  line-height: 1.3;
+  min-height: 2.6em;
+}
+
+.store-card-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--emerald-400);
+}
+
+.store-card-stock {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.store-card .btn {
+  width: 100%;
+  margin-top: auto;
+}
+
+.store-card.sold-out {
+  opacity: 0.55;
+}
+
+.store-cart {
+  position: sticky;
+  top: 24px;
+  height: auto;
+  max-height: calc(100vh - 48px);
+}
+
+/* -------- Recibo -------- */
+.store-receipt {
+  background: var(--surface-raised);
+  border: 1px solid var(--emerald-600);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  width: min(420px, calc(100vw - 32px));
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: pop-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.store-receipt-head {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.store-receipt-head p {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.store-receipt-check {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--emerald-glow);
+  color: var(--emerald-400);
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.store-receipt-lines {
+  border-top: 1px dashed var(--border);
+  border-bottom: 1px dashed var(--border);
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.store-receipt-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13.5px;
+}
+
+.store-receipt-line.muted {
+  color: var(--text-muted);
+}
+
+.store-receipt-line.discount {
+  color: var(--emerald-400);
+  font-weight: 600;
+}
+
+.store-receipt-line.total {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 900px) {
+  .store-layout {
+    grid-template-columns: 1fr;
+  }
+  .store-cart {
+    position: static;
+    max-height: none;
+  }
+}
