@@ -2,190 +2,97 @@
 // This program is licensed under the "MIT License".
 // Please see the file COPYING in the source
 // distribution of this software for license terms.
+//
+// Este servidor agora funciona como uma API pura, consumida pelo front-end
+// React (pasta openpos-frontend, rodando separadamente via Vite). As antigas
+// views Handlebars (login/register) foram substituídas por telas React
+// equivalentes, então express-handlebars não é mais necessário aqui.
+//
+// routes/auth-api.js  -> login, registro e logout em JSON
+// routes/api.js       -> produtos, vendas e estatísticas (protegido por sessão)
+
+require('dotenv').config();
 
 var express = require('express'),
 	app = express(),
-	path = require('path'),
 	cookieParser = require('cookie-parser'),
-	bodyParser = require('body-parser'),
-	exphbs = require('express-handlebars'),
-	expressValidator = require('express-validator'),
-	flash = require('connect-flash'),
 	session = require('express-session'),
 	passport = require('passport'),
-	LocalStrategy = require('passport-local').Strategy,
-	routes = require('./routes/index'),
-	users = require('./routes/users'),
-	mongo = require('mongodb'),
+	api = require('./routes/api'),
+	authApi = require('./routes/auth-api'),
+	publicApi = require('./routes/public-api'),
 	mongoose = require('mongoose'),
 	db = mongoose.connection;
 
+// Precisa ser registrada antes de qualquer rota que use req.user (routes/auth-api.js
+// registra a estratégia 'local' do Passport como efeito colateral do require).
+require('./routes/passport-config');
 
-// init express
-var app = express();
+// -------------------- Database connection --------------------
+var MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/OpenPOS';
 
-// connect to a local database
-//mongoose.connect('mongodb://localhost/loginapp');
+mongoose.connect(MONGO_URI);
 
-// or, connect to MongoDB's Atlas (a cloud-hosted MongoDB service)
-var username = "djk3"
-var password = "Da72vid87!"
-var uri = "mongodb://" + username + ":" + password + "@openposcluster-shard-00-00-zb2uf.mongodb.net:27017,openposcluster-shard-00-01-zb2uf.mongodb.net:27017,openposcluster-shard-00-02-zb2uf.mongodb.net:27017/OpenPOS?ssl=true&replicaSet=OpenPOSCluster-shard-0&authSource=admin";
-mongoose.connect(uri, {
-	useMongoClient: true
-});
-var db1 = mongoose.connection;
-db1.on('error', console.error.bind(console, 'connection error:'));
-db1.once('open', function () {
-	console.log("Connected to MongoDB Atlas");
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', function () {
+	console.log('Connected to MongoDB');
 });
 
-// define a mongoose schema
-var productSchema = mongoose.Schema({
-	name: String,
-	price: String,
-	category: String,
-	user: String
-});
-
-// define a mongoose model
-var Products = mongoose.model('products', productSchema, 'products');
-
-// setup view engine
-app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', exphbs({
-	defaultLayout: 'layout'
-}));
-app.set('view engine', 'handlebars');
-
-// setup bodyParser middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-	//	extended: false
-	extended: true
-}));
+// setup body parsing middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+// -------------------- CORS (dev) --------------------
+// O front-end React roda em outra porta durante o desenvolvimento
+// (Vite, geralmente localhost:5173). O proxy do Vite (ver vite.config.js
+// no projeto do front-end) faz o navegador enxergar tudo como "mesma
+// origem" — este CORS aqui é uma segunda camada de segurança, útil caso
+// alguém rode o front sem o proxy (ex: apontando direto pra API).
+var FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'http://localhost:5173';
+app.use(function (req, res, next) {
+	res.header('Access-Control-Allow-Origin', FRONTEND_ORIGIN);
+	res.header('Access-Control-Allow-Credentials', 'true');
+	res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+	res.header('Access-Control-Allow-Headers', 'Content-Type');
+	if (req.method === 'OPTIONS') {
+		return res.sendStatus(204);
+	}
+	next();
+});
 
 // setup an express session
 app.use(session({
-	secret: 'secret',
+	secret: process.env.SESSION_SECRET || 'change-me-in-.env',
 	saveUninitialized: true,
-	resave: true
+	resave: true,
+	cookie: {
+		sameSite: 'lax'
+	}
 }));
 
 // init passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-// setup express validator
-app.use(expressValidator({
-	errorFormatter: function (param, msg, value) {
-		var namespace = param.split('.'),
-			root = namespace.shift(),
-			formParam = root;
+// -------------------- Routes --------------------
+app.use('/api/auth', authApi);     // login/registro/logout em JSON (sem exigir sessão)
+app.use('/api/public', publicApi); // loja do cliente: vitrine e compra (sem sessão)
+app.use('/api', api);              // produtos, vendas e estatísticas (exige sessão)
 
-		while (namespace.length) {
-			formParam += '[' + namespace.shift() + ']';
-		}
-		return {
-			param: formParam,
-			msg: msg,
-			value: value
-		};
-	}
-}));
-
-// connect flash
-app.use(flash());
-
-// global vars
-app.use(function (req, res, next) {
-	res.locals.success_msg = req.flash('success_msg');
-	res.locals.error_msg = req.flash('error_msg');
-	res.locals.error = req.flash('error');
-	res.locals.user = req.user || null;
-	next();
+app.get('/', function (req, res) {
+	res.json({ message: 'OpenPOS API rodando. O front-end React roda separadamente (npm run dev na pasta openpos-frontend).' });
 });
-
-// -------------------- END - Express routing for product CRUD operations --------------------
-
-// username variable
-var uname = "";
-
-function isEmpty(str) {
-	return (!str || 0 === str.length);
-}
-
-// find products from db
-app.get('/productlist', function (req, res) {
-
-	// make sure uname is set to the login username
-	if (typeof req["user"].username === 'undefined') {
-		uname = req["user"].user;
-	}
-
-	if (isEmpty(uname)) {
-		uname = req["user"].username;
-	} else if (!isEmpty(req['user'].username) && (uname !== req['user'].username)) {
-		uname = req['user'].username;
-	}
-
-	// find all products (documents) belonging to the user
-	console.log(uname, "just logged into OpenPOS");
-	Products.find({
-		user: uname
-	}, function (err, docs) {
-		console.log("Finding all docs for", uname + ":\n", docs);
-		res.json(docs);
-	});
-});
-
-// add product from db
-app.post('/productlist', function (req, res) {
-	console.log("Item requested to be added to the db: ", req.body);
-
-	// create a new product using the data sent from the client
-	var p = new Products(req.body);
-
-	// save the new product to the db
-	p.save(function (err, doc) {
-		if (err) {
-			return console.error(err)
-		} else {
-			console.log("Saving p to db: ", doc);
-			res.json(doc);
-		}
-	});
-});
-
-// delete product from db
-app.delete('/productlist/:id', function (req, res) {
-
-	// get the product id
-	var id = req.params.id;
-	console.log("Removing item - id: " + id);
-
-	// remove the product from the db
-	Products.remove({
-		_id: id
-	}, function (err, doc) {
-		res.json(doc);
-	});
-});
-
-// -------------------- START - Express routing for product CRUD operations --------------------
-
-// setup static routes
-app.use(express.static(__dirname + '/public'));
-
-// setup routes
-app.use('/', routes);
-app.use('/users', users);
 
 // set the port
 app.set('port', (process.env.PORT || 3000));
 
-// start the server
-app.listen(app.get('port'), function () {
-	console.log('Server running on port ' + app.get('port'));
-});
+// start the server — só quando executado diretamente (npm start / npm run dev).
+// Quando importado pelos testes, o app é exportado sem abrir a porta.
+if (require.main === module) {
+	app.listen(app.get('port'), function () {
+		console.log('Server running on port ' + app.get('port'));
+	});
+}
+
+module.exports = app;
