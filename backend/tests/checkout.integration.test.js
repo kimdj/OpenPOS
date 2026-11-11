@@ -2,17 +2,24 @@
 // cadastro de lojista, CRUD de produto com estoque, compra no Caixa e na
 // Loja do Cliente, baixa de estoque e desconto de 5%.
 //
-// Usa um banco SEPARADO (nunca rode contra o banco compartilhado da turma!):
+// Por padrão sobe um MongoDB EM MEMÓRIA (mongodb-memory-server), então roda
+// em qualquer máquina sem banco instalado e nunca toca o banco da turma.
+// Para usar um MongoDB já existente (ex.: o serviço do GitHub Actions):
 //   MONGO_URI_TEST=mongodb://127.0.0.1:27017/OpenPOS_test npm test
-// Sem MONGO_URI_TEST definido, o teste é pulado.
 
 var test = require('node:test');
 var assert = require('node:assert/strict');
 
-var MONGO_URI_TEST = process.env.MONGO_URI_TEST;
-
-test('fluxo completo de compra', { skip: !MONGO_URI_TEST && 'defina MONGO_URI_TEST para rodar' }, async function (t) {
-	process.env.MONGO_URI = MONGO_URI_TEST;
+test('fluxo completo de compra', { timeout: 300000 }, async function (t) {
+	var memoryServer = null;
+	var uri = process.env.MONGO_URI_TEST;
+	if (!uri) {
+		// Na primeira execução baixa o binário do MongoDB (pode levar 1-2 min).
+		var { MongoMemoryServer } = require('mongodb-memory-server');
+		memoryServer = await MongoMemoryServer.create();
+		uri = memoryServer.getUri('OpenPOS_test');
+	}
+	process.env.MONGO_URI = uri;
 	var mongoose = require('mongoose');
 	var app = require('../server');
 	await mongoose.connection.asPromise();
@@ -37,6 +44,7 @@ test('fluxo completo de compra', { skip: !MONGO_URI_TEST && 'defina MONGO_URI_TE
 	t.after(async function () {
 		server.close();
 		await mongoose.disconnect();
+		if (memoryServer) await memoryServer.stop();
 	});
 
 	// --- lojista ---
