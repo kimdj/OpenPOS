@@ -1,0 +1,42 @@
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 11, 15, 0.6);
+  backdrop-filter: blur(2px);
+  display: grid;
+  place-items: center;
+  z-index: 900;
+  animation: overlay-in 0.15s ease;
+}
+
+.dialog-card {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  width: 360px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.dialog-card h3 {
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.dialog-card p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
