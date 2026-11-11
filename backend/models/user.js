@@ -24,31 +24,28 @@ var UserSchema = mongoose.Schema({
 });
 
 // expose the user schema as a module
-var User = module.exports = mongoose.model('User', UserSchema);
+var User = mongoose.model('User', UserSchema);
 
-module.exports.createUser = function (newUser, callback) {
-	bcrypt.genSalt(10, function (err, salt) {
-		bcrypt.hash(newUser.password, salt, function (err, hash) {
-			newUser.password = hash;
-			newUser.save(callback);
-		});
-	});
-}
+// NOTE: Mongoose 7+ dropped callback support entirely, so every method below
+// is now Promise/async-await based instead of the old callback style.
+// Calling code (routes/users.js) has been updated to match.
 
-module.exports.getUserByUsername = function (username, callback) {
-	var query = {
-		username: username
-	};
-	User.findOne(query, callback);
-}
+module.exports = User;
 
-module.exports.getUserById = function (id, callback) {
-	User.findById(id, callback);
-}
+module.exports.createUser = async function (newUser) {
+	var salt = await bcrypt.genSalt(10);
+	newUser.password = await bcrypt.hash(newUser.password, salt);
+	return newUser.save();
+};
 
-module.exports.comparePassword = function (candidatePassword, hash, callback) {
-	bcrypt.compare(candidatePassword, hash, function (err, isMatch) {
-		if (err) throw err;
-		callback(null, isMatch);
-	});
-}
+module.exports.getUserByUsername = function (username) {
+	return User.findOne({ username: username });
+};
+
+module.exports.getUserById = function (id) {
+	return User.findById(id);
+};
+
+module.exports.comparePassword = function (candidatePassword, hash) {
+	return bcrypt.compare(candidatePassword, hash);
+};
