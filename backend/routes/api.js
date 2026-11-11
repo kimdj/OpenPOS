@@ -10,6 +10,7 @@ var Product = require('../models/product');
 var Sale = require('../models/sale');
 var checkoutService = require('../services/checkout');
 var sendError = require('../services/errors').sendError;
+var escapeRegex = require('../services/text').escapeRegex;
 
 // -------------------- Middleware --------------------
 
@@ -34,8 +35,10 @@ router.get('/products', async function (req, res) {
 	try {
 		var filter = { user: getUsername(req) };
 
-		if (req.query.search) {
-			filter.name = { $regex: req.query.search, $options: 'i' };
+		// Só aceita texto (bloqueia ?search[$ne]=... ) e escapa os caracteres
+		// especiais de regex, para a busca ser sempre literal.
+		if (typeof req.query.search === 'string' && req.query.search.trim()) {
+			filter.name = { $regex: escapeRegex(req.query.search.trim()), $options: 'i' };
 		}
 
 		var docs = await Product.find(filter).sort({ createdAt: -1 });
